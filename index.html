@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edwien Janakan Thevachchandran — Portfolio OS</title>
+
+    <!-- Tailwind CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Animation & Icon Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #000000;
+            color: #f5f5f7;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        .font-mono-code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .gpu-accel {
+            transform: translateZ(0);
+            will-change: transform, opacity;
+        }
+
+        .card-glass {
+            background: rgba(18, 18, 20, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+        }
+
+        .grid-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .social-btn {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .exploded-stage {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out, border-color 0.3s ease;
+        }
+
+        body.blueprint-mode {
+            background-color: #050d1a !important;
+            background-image: linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        body.blueprint-mode .card-glass {
+            border: 1px dashed rgba(96, 165, 250, 0.5) !important;
+            background: rgba(10, 25, 47, 0.85) !important;
+        }
+
+        .anime-char {
+            display: inline-block;
+            will-change: transform, opacity;
+        }
+    </style>
+</head>
+
+<body class="selection:bg-indigo-500 selection:text-white pb-36">
+
+    <!-- Apple Minimal Navigation -->
+    <nav
+        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-black/80 border-b border-white/10 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <div
+                class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shadow-md">
+                E
+            </div>
+            <span class="font-bold tracking-tight text-sm md:text-base text-white">Edwien Janakan Thevachchandran</span>
+        </div>
+
+        <div class="flex items-center space-x-6 text-sm text-neutral-400">
+            <a href="#hero" class="hover:text-white transition">Overview</a>
+            <a href="#anime-lab" class="hover:text-white transition">Motion Lab</a>
+            <a href="#projects-pin" class="hover:text-white transition">Projects</a>
+            <a href="#terminal-sec" class="hover:text-white transition">Terminal</a>
+            <a href="#compare" class="hover:text-white transition">Specs</a>
+            <a href="#connect" class="hover:text-white transition">Socials</a>
+
+            <button onclick="toggleBlueprintMode()"
+                class="px-3 py-1 rounded-full text-xs font-mono border border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/20 transition flex items-center gap-1.5 cursor-pointer">
+                <i data-feather="grid" class="w-3.5 h-3.5"></i>
+                <span>Blueprint</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sticky Hero Section with 3D Disassembly & Anime.js Kinetic Headline -->
+    <section id="hero"
+        class="relative h-screen w-full flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(99,102,241,0.18),transparent_60%)] pointer-events-none">
+        </div>
+
+        <div class="z-20 flex flex-col items-center">
+            <div
+                class="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-indigo-300">
+                <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></span>
+                Portfolio OS v2.4 • Architecture & Systems
+            </div>
+
+            <!-- Scramble / Staggered Anime Title -->
+            <h1 id="hero-title"
+                class="gpu-accel text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-600 pb-2 max-w-5xl">
+                Edwien Janakan Thevachchandran.
+            </h1>
+
+            <p id="hero-subtitle"
+                class="gpu-accel mt-4 text-lg md:text-2xl text-neutral-400 font-normal tracking-wide max-w-xl">
+                Engineering motion kinetics, architecture, and fluid web experiences.
+            </p>
+        </div>
+
+        <!-- Cinematic 3D Disassembling Computer Stage -->
+        <div id="hero-stage"
+            class="exploded-stage relative mt-6 w-full max-w-4xl h-80 md:h-[420px] flex items-center justify-center z-10 pointer-events-none">
+
+            <!-- Layer 1: Outer Chassis -->
+            <div id="layer-chassis"
+                class="layer-chassis absolute inset-0 rounded-3xl border-2 border-white/20 bg-neutral-900/30 backdrop-blur-sm p-6 flex flex-col justify-between shadow-2xl overflow-hidden">
+                <div
+                    class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]">
+                </div>
+                <div class="flex items-center justify-between z-10">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <span class="text-xs font-mono tracking-widest text-neutral-400 uppercase">UNIBODY ENCLOSURE //
+                        LAYER 01</span>
+                </div>
+                <div class="text-right z-10"><span class="text-[10px] font-mono text-neutral-500">CNC ANODIZED
+                        ALUMINUM</span></div>
+            </div>
+
+            <!-- Layer 2: Mainboard PCB -->
+            <div id="layer-pcb"
+                class="layer-pcb absolute w-[92%] h-[85%] rounded-2xl border border-indigo-500/30 bg-neutral-950/80 p-6 flex flex-col justify-between shadow-xl">
+                <div class="flex justify-between items-center text-xs font-mono text-indigo-400">
+                    <span>MOTHERBOARD ARCHITECTURE</span>
+                    <span>LAYER 02</span>
+                </div>
+                <div class="grid grid-cols-6 gap-2 opacity-30 py-4">
+                    <div class="h-1 bg-indigo-500 rounded col-span-3"></div>
+                    <div class="h-1 bg-indigo-500 rounded col-span-1"></div>
+                    <div class="h-1 bg-indigo-500 rounded col-span-2"></div>
+                    <div class="h-1 bg-indigo-500 rounded col-span-2"></div>
+                    <div class="h-1 bg-indigo-500 rounded col-span-4"></div>
+                </div>
+                <div class="text-xs font-mono text-neutral-600 text-left">BUS: 512-BIT // UNIFIED MEMORY</div>
+            </div>
+
+            <!-- Layer 3: Silicon Die -->
+            <div id="layer-chip"
+                class="layer-chip absolute w-48 h-48 rounded-2xl border border-purple-500/60 bg-purple-950/90 p-4 flex flex-col items-center justify-center shadow-[0_0_50px_rgba(168,85,247,0.4)]">
+                <div
+                    class="w-16 h-16 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 flex items-center justify-center shadow-inner">
+                    <i data-feather="cpu" class="w-8 h-8 text-white"></i>
+                </div>
+                <span class="mt-2 text-xs font-black text-white tracking-widest uppercase">E-CORE ENGINE</span>
+                <span class="text-[9px] font-mono text-purple-300">3nm MONOLITHIC DIE</span>
+            </div>
+
+            <!-- Layer 4: Thermal Pipes -->
+            <div id="layer-cooler"
+                class="layer-cooler absolute w-[70%] h-[60%] rounded-2xl border border-cyan-500/40 bg-cyan-950/20 p-4 flex items-center justify-around shadow-lg">
+                <div class="h-full w-2 bg-cyan-400/40 rounded-full"></div>
+                <div class="h-full w-2 bg-cyan-400/60 rounded-full"></div>
+                <div class="h-full w-2 bg-cyan-400/40 rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: Anime.js Signature Motion Lab (SVG Line Drawing + Floating Geometry) -->
+    <section id="anime-lab" class="min-h-screen py-28 px-6 max-w-6xl mx-auto flex flex-col justify-center">
+        <div class="text-left mb-16">
+            <span class="text-indigo-400 text-xs font-mono tracking-widest uppercase">Anime.js Signature Showcase</span>
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mt-2">Morphing Kinetics & Paths.
+            </h2>
+            <p class="text-neutral-400 text-sm md:text-base mt-2">Continuous SVG stroke tracing, spring morphs, and
+                staggered easing loops.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Anime.js SVG Line Tracer -->
+            <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center group">
+                <span class="text-xs font-mono text-indigo-400 uppercase tracking-wider self-start">01 / SVG Line
+                    Draw</span>
+                <div class="py-6">
+                    <svg width="180" height="180" viewBox="0 0 200 200" class="overflow-visible">
+                        <polygon class="svg-polygon" points="100,20 180,80 150,170 50,170 20,80" fill="none"
+                            stroke="#818cf8" stroke-width="3" />
+                        <circle class="svg-circle" cx="100" cy="100" r="45" fill="none" stroke="#c084fc"
+                            stroke-width="3" />
+                    </svg>
+                </div>
+                <p class="text-xs text-neutral-400 font-mono">Dynamic dash-offset stroke path loop</p>
+            </div>
+
+            <!-- Anime.js Geometric Spring Physics -->
+            <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center">
+                <span class="text-xs font-mono text-purple-400 uppercase tracking-wider self-start">02 / Spring
+                    Physics</span>
+                <div class="flex gap-3 py-12">
+                    <div class="spring-box w-10 h-10 rounded-xl bg-purple-500/80 shadow-lg shadow-purple-500/30"></div>
+                    <div class="spring-box w-10 h-10 rounded-xl bg-indigo-500/80 shadow-lg shadow-indigo-500/30"></div>
+                    <div class="spring-box w-10 h-10 rounded-xl bg-cyan-500/80 shadow-lg shadow-cyan-500/30"></div>
+                </div>
+                <p class="text-xs text-neutral-400 font-mono">Spring oscillation: stiffness 120, damping 8</p>
+            </div>
+
+            <!-- Anime.js Interactive Orbital Engine -->
+            <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center cursor-pointer"
+                onclick="triggerOrbitExplosion()">
+                <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider self-start">03 / Orbital
+                    Matrix</span>
+                <div class="relative w-32 h-32 flex items-center justify-center my-6">
+                    <div
+                        class="orbit-center w-8 h-8 rounded-full bg-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.8)]">
+                    </div>
+                    <div class="orbit-node absolute w-4 h-4 rounded-full bg-indigo-400"></div>
+                    <div class="orbit-node absolute w-4 h-4 rounded-full bg-purple-400"></div>
+                    <div class="orbit-node absolute w-4 h-4 rounded-full bg-cyan-400"></div>
+                </div>
+                <p class="text-xs text-neutral-400 font-mono">Click to trigger energy pulse</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Kinetic Text Highlighter Section -->
+    <section id="highlighter" class="min-h-screen py-32 px-6 max-w-5xl mx-auto flex flex-col justify-center">
+        <span class="text-xs font-mono text-indigo-400 tracking-widest uppercase mb-4">Core Philosophy</span>
+        <h2 class="text-3xl sm:text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+            <span class="highlight-text">Every animation serves a purpose.</span><br />
+            <span class="highlight-text">Engineered for extreme responsiveness.</span><br />
+            <span class="highlight-text">Built to elevate human-computer interaction.</span>
+        </h2>
+    </section>
+
+    <!-- Horizontal Project Showcase -->
+    <section id="projects-pin" class="relative overflow-hidden bg-neutral-950">
+        <div id="projects-track" class="flex items-center h-screen px-12 gap-12 w-[320vw] md:w-[220vw]">
+
+            <div class="w-80 flex-shrink-0">
+                <span class="text-xs font-mono text-indigo-400 tracking-widest uppercase">Featured Systems</span>
+                <h3 class="text-4xl md:text-6xl font-black text-white tracking-tight mt-2">Projects in motion.</h3>
+                <p class="text-neutral-500 text-sm mt-3">Scroll vertically to glide. Click any card to expand deep case
+                    specs.</p>
+            </div>
+
+            <!-- Project 1 with Image Cover -->
+            <div onclick="openCaseStudy(1)"
+                class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
+                <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200&auto=format&fit=crop"
+                    alt="Algorithm Trading"
+                    class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 group-hover:opacity-35 transition duration-700 pointer-events-none" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none">
+                </div>
+
+                <div class="relative z-10 flex justify-between items-center">
+                    <span class="text-xs font-mono text-emerald-400 uppercase">System 01 / Quantitative</span>
+                    <span
+                        class="text-xs font-mono px-2.5 py-1 rounded-full bg-white/10 text-white backdrop-blur-md">Click
+                        to Expand ↗</span>
+                </div>
+                <div class="relative z-10">
+                    <h4 class="text-3xl md:text-4xl font-bold text-white">Algorithmic Execution Core</h4>
+                    <p class="text-neutral-300 text-sm md:text-base mt-2 max-w-md">
+                        Ultra low-latency financial signal pipeline with real-time market data evaluation.
+                    </p>
+                </div>
+                <div class="relative z-10 text-xs font-mono text-neutral-400">MQL5 • C++ • WebSocket</div>
+            </div>
+
+            <!-- Project 2 with Image Cover -->
+            <div onclick="openCaseStudy(2)"
+                class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
+                    alt="Architectural Villa"
+                    class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 group-hover:opacity-35 transition duration-700 pointer-events-none" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none">
+                </div>
+
+                <div class="relative z-10 flex justify-between items-center">
+                    <span class="text-xs font-mono text-indigo-400 uppercase">System 02 / Spatial</span>
+                    <span
+                        class="text-xs font-mono px-2.5 py-1 rounded-full bg-white/10 text-white backdrop-blur-md">Click
+                        to Expand ↗</span>
+                </div>
+                <div class="relative z-10">
+                    <h4 class="text-3xl md:text-4xl font-bold text-white">Modern Architectural Studio</h4>
+                    <p class="text-neutral-300 text-sm md:text-base mt-2 max-w-md">
+                        Interactive structural layout visualizer built for luxury coastal developments.
+                    </p>
+                </div>
+                <div class="relative z-10 text-xs font-mono text-neutral-400">Three.js • WebGL • Tailwind</div>
+            </div>
+
+            <!-- Project 3 with Image Cover -->
+            <div onclick="openCaseStudy(3)"
+                class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop"
+                    alt="Kinetic Engine"
+                    class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 group-hover:opacity-35 transition duration-700 pointer-events-none" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none">
+                </div>
+
+                <div class="relative z-10 flex justify-between items-center">
+                    <span class="text-xs font-mono text-purple-400 uppercase">System 03 / Engine</span>
+                    <span
+                        class="text-xs font-mono px-2.5 py-1 rounded-full bg-white/10 text-white backdrop-blur-md">Click
+                        to Expand ↗</span>
+                </div>
+                <div class="relative z-10">
+                    <h4 class="text-3xl md:text-4xl font-bold text-white">Kinetic Vector Studio</h4>
+                    <p class="text-neutral-300 text-sm md:text-base mt-2 max-w-md">
+                        Physics-driven particle canvas with dynamic gesture collision detection.
+                    </p>
+                </div>
+                <div class="relative z-10 text-xs font-mono text-neutral-400">Anime.js • GSAP • Canvas API</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive macOS Terminal Showcase -->
+    <section id="terminal-sec" class="min-h-screen py-24 px-6 max-w-4xl mx-auto flex flex-col justify-center">
+        <div class="mb-8 text-center">
+            <span class="text-xs font-mono text-indigo-400 tracking-widest uppercase">Developer Shell</span>
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mt-2">Interactive Terminal</h2>
+            <p class="text-neutral-500 text-sm mt-2">Type commands like <span
+                    class="text-indigo-400 font-mono">help</span>, <span
+                    class="text-indigo-400 font-mono">skills</span>, <span
+                    class="text-indigo-400 font-mono">projects</span>, or <span
+                    class="text-indigo-400 font-mono">clear</span>.</p>
+        </div>
+
+        <div
+            class="w-full rounded-2xl card-glass border border-white/20 shadow-2xl overflow-hidden font-mono-code text-sm">
+            <div class="bg-neutral-900/90 px-4 py-3 flex items-center justify-between border-b border-white/10">
+                <div class="flex space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <span class="text-xs text-neutral-400 font-medium">edwien@macbook-pro:~</span>
+                <div class="w-8"></div>
+            </div>
+
+            <div id="terminal-output" class="p-6 text-neutral-300 space-y-2 h-72 overflow-y-auto bg-black/70">
+                <div>Welcome to Edwien OS Shell [Version 2.4.0]</div>
+                <div class="text-neutral-500">Type 'help' to see all available commands.</div>
+            </div>
+
+            <form onsubmit="handleTerminalSubmit(event)"
+                class="flex items-center px-6 py-3 bg-neutral-900/60 border-t border-white/10">
+                <span class="text-emerald-400 mr-2">❯</span>
+                <input id="term-input" type="text" autocomplete="off" placeholder="Type a command..."
+                    class="w-full bg-transparent text-white focus:outline-none text-sm font-mono-code" />
+            </form>
+        </div>
+    </section>
+
+    <!-- Apple Chip & Tech Specs Comparison Matrix -->
+    <section id="compare" class="min-h-screen py-32 px-6 max-w-6xl mx-auto flex flex-col justify-center">
+        <div class="text-left mb-16">
+            <span class="text-indigo-400 text-sm font-semibold tracking-widest uppercase">Benchmarked
+                Capabilities</span>
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mt-2">Compare Execution Profiles.
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Profile 1 -->
+            <div class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden group">
+                <div class="h-44 w-full relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"
+                        alt="Code Development"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent"></div>
+                    <span class="absolute bottom-3 left-6 text-xs font-mono text-indigo-400 uppercase font-bold">Core
+                        Tier</span>
+                </div>
+                <div class="p-6 pt-0 space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Frontend Engineering</h3>
+                        <p class="text-xs text-neutral-400 mt-1">Fluid interfaces, micro-interactions, and reactive
+                            layouts.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1"><span>Animation
+                                    Kinetics</span><span>98%</span></div>
+                            <div class="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                                <div class="h-full bg-indigo-500 w-[98%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1"><span>Next.js /
+                                    React</span><span>95%</span></div>
+                            <div class="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                                <div class="h-full bg-indigo-400 w-[95%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-neutral-500">OPTIMIZED FOR 120 FPS</div>
+                </div>
+            </div>
+
+            <!-- Profile 2 -->
+            <div
+                class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden border-indigo-500/40 shadow-[0_0_40px_rgba(99,102,241,0.15)] group">
+                <div class="h-44 w-full relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+                        alt="Algorithms"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent"></div>
+                    <span class="absolute bottom-3 left-6 text-xs font-mono text-purple-400 uppercase font-bold">Pro Max
+                        Tier</span>
+                </div>
+                <div class="p-6 pt-0 space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Algorithms & Quant</h3>
+                        <p class="text-xs text-neutral-400 mt-1">Latency-critical systems, signal generation, and
+                            automation.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1"><span>MQL5 /
+                                    Algorithmic</span><span>92%</span></div>
+                            <div class="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                                <div class="h-full bg-purple-500 w-[92%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1"><span>C / C++
+                                    Fundamentals</span><span>90%</span></div>
+                            <div class="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                                <div class="h-full bg-purple-400 w-[90%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-purple-300">LOW LATENCY THREADING</div>
+                </div>
+            </div>
+
+            <!-- Profile 3 -->
+            <div class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden group">
+                <div class="h-44 w-full relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop"
+                        alt="3D Architecture"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent"></div>
+                    <span
+                        class="absolute bottom-3 left-6 text-xs font-mono text-emerald-400 uppercase font-bold">Architecture
+                        Tier</span>
+                </div>
+                <div class="p-6 pt-0 space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Spatial & Design</h3>
+                        <p class="text-xs text-neutral-400 mt-1">3D modeling visualization and architectural site
+                            layouts.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1"><span>Three.js /
+                                    WebGL</span><span>88%</span></div>
+                            <div class="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                                <div class="h-full bg-emerald-500 w-[88%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1"><span>Spatial
+                                    Plans</span><span>93%</span></div>
+                            <div class="h-1.5 rounded-full bg-neutral-800 overflow-hidden">
+                                <div class="h-full bg-emerald-400 w-[93%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-neutral-500">PRECISION VECTOR DRAFTING</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Connect & Socials Section -->
+    <section id="connect" class="min-h-screen py-32 px-6 max-w-6xl mx-auto flex flex-col justify-center text-center">
+        <div class="mb-12">
+            <span class="text-xs font-mono text-indigo-400 tracking-widest uppercase">Direct Channels</span>
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mt-2">Connect with Edwien.</h2>
+            <p class="text-neutral-400 text-sm md:text-base mt-3 max-w-lg mx-auto">
+                Feel free to reach out for collaborations, architecture discussions, or software opportunities.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
+            <a href="https://wa.me/94743287586?text=Hi%20Edwien,%20I%20saw%20your%20portfolio!" target="_blank"
+                rel="noopener noreferrer"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
+                <div
+                    class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition">
+                    <i data-feather="message-circle" class="w-6 h-6"></i>
+                </div>
+                <span class="font-semibold text-sm text-white">WhatsApp</span>
+                <span class="text-xs text-neutral-500">Direct Chat</span>
+            </a>
+
+            <a href="https://github.com/Edwien-IT25102765" target="_blank" rel="noopener noreferrer"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
+                <div
+                    class="p-3 rounded-2xl bg-neutral-800 text-white group-hover:bg-white group-hover:text-black transition">
+                    <i data-feather="github" class="w-6 h-6"></i>
+                </div>
+                <span class="font-semibold text-sm text-white">GitHub</span>
+                <span class="text-xs text-neutral-500">@Edwien-IT25102765</span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/edwien-janakan-thevachchandran-638389359/" target="_blank"
+                rel="noopener noreferrer"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
+                <div
+                    class="p-3 rounded-2xl bg-blue-600/10 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <i data-feather="linkedin" class="w-6 h-6"></i>
+                </div>
+                <span class="font-semibold text-sm text-white">LinkedIn</span>
+                <span class="text-xs text-neutral-500">Edwien Janakan</span>
+            </a>
+
+            <a href="https://www.instagram.com/10erandom/" target="_blank" rel="noopener noreferrer"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
+                <div
+                    class="p-3 rounded-2xl bg-pink-500/10 text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-yellow-500 group-hover:via-pink-500 group-hover:to-purple-600 group-hover:text-white transition">
+                    <i data-feather="instagram" class="w-6 h-6"></i>
+                </div>
+                <span class="font-semibold text-sm text-white">Instagram</span>
+                <span class="text-xs text-neutral-500">@10erandom</span>
+            </a>
+
+            <a href="https://www.facebook.com/profile.php?id=100085239720896" target="_blank" rel="noopener noreferrer"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
+                <div
+                    class="p-3 rounded-2xl bg-blue-500/10 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <i data-feather="facebook" class="w-6 h-6"></i>
+                </div>
+                <span class="font-semibold text-sm text-white">Facebook</span>
+                <span class="text-xs text-neutral-500">Edwien Janakan</span>
+            </a>
+
+            <button onclick="openEmailModal()"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group cursor-pointer text-left w-full">
+                <div
+                    class="p-3 rounded-2xl bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-black transition">
+                    <i data-feather="mail" class="w-6 h-6"></i>
+                </div>
+                <span class="font-semibold text-sm text-white">Email</span>
+                <span class="text-xs text-neutral-500">Send Message</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Case Study Expander Modal -->
+    <div id="case-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div
+            class="relative w-full max-w-2xl rounded-3xl card-glass bg-neutral-900/95 border border-white/20 overflow-hidden shadow-2xl text-left">
+            <div id="case-modal-image" class="h-48 w-full relative bg-cover bg-center">
+                <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent"></div>
+                <button onclick="closeCaseStudy()"
+                    class="absolute top-4 right-4 text-neutral-400 hover:text-white text-sm font-mono px-3 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 transition">✕
+                    ESC</button>
+            </div>
+
+            <div class="p-8 pt-2 space-y-4">
+                <div>
+                    <span id="case-badge" class="text-xs font-mono text-indigo-400 uppercase tracking-widest">SYSTEM
+                        ARCHITECTURE</span>
+                    <h3 id="case-title" class="text-2xl font-bold text-white tracking-tight mt-1">Project Deep Dive</h3>
+                </div>
+
+                <p id="case-desc" class="leading-relaxed text-neutral-300 text-sm"></p>
+
+                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 font-mono text-xs space-y-2">
+                    <div class="text-indigo-400 font-bold">TECH STACK & BENCHMARKS:</div>
+                    <div id="case-specs" class="text-neutral-300"></div>
+                </div>
+
+                <div class="pt-2 flex justify-end">
+                    <button onclick="closeCaseStudy()"
+                        class="px-6 py-2.5 rounded-2xl bg-white text-black font-semibold text-xs hover:bg-neutral-200 transition">Close
+                        Sheet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Composer Modal -->
+    <div id="email-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div
+            class="relative w-full max-w-xl rounded-3xl card-glass bg-neutral-900/95 border border-white/20 p-8 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                    <h3 class="text-lg font-bold text-white tracking-tight">Direct Email to Edwien</h3>
+                </div>
+                <button onclick="closeEmailModal()"
+                    class="text-neutral-400 hover:text-white transition text-sm font-mono px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10">✕
+                    ESC</button>
+            </div>
+
+            <form onsubmit="handleSendEmail(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1">Your
+                        Name</label>
+                    <input id="sender-name" type="text" required placeholder="John Doe"
+                        class="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500 transition text-sm" />
+                </div>
+
+                <div>
+                    <label
+                        class="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1">Subject</label>
+                    <input id="email-subject" type="text" required
+                        placeholder="Software Inquiry / Project Collaboration"
+                        class="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500 transition text-sm" />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1">Your
+                        Message</label>
+                    <textarea id="email-body" rows="4" required placeholder="Hi Edwien, I would like to discuss..."
+                        class="w-full px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500 transition text-sm resize-none"></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3.5 rounded-2xl bg-white text-black font-semibold text-sm hover:bg-neutral-200 transition flex items-center justify-center gap-2 shadow-lg">
+                    <i data-feather="send" class="w-4 h-4"></i>
+                    <span>Send to 10ethevachchandran@gmail.com</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dynamic Island -->
+    <div id="dynamic-island"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 md:gap-5 px-5 py-2.5 rounded-full bg-neutral-900/90 border border-white/20 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:scale-105 hover:border-indigo-500/50">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+        <span class="text-xs font-medium text-neutral-300 hidden sm:inline">Edwien • Online</span>
+        <div class="h-4 w-px bg-white/20 hidden sm:inline"></div>
+        <div class="flex items-center gap-3">
+            <a href="https://wa.me/94743287586?text=Hi%20Edwien,%20I%20saw%20your%20portfolio!" target="_blank"
+                rel="noopener noreferrer" title="WhatsApp" class="text-neutral-400 hover:text-emerald-400 transition"><i
+                    data-feather="message-circle" class="w-4 h-4"></i></a>
+            <a href="https://github.com/Edwien-IT25102765" target="_blank" rel="noopener noreferrer" title="GitHub"
+                class="text-neutral-400 hover:text-white transition"><i data-feather="github" class="w-4 h-4"></i></a>
+            <a href="https://www.linkedin.com/in/edwien-janakan-thevachchandran-638389359/" target="_blank"
+                rel="noopener noreferrer" title="LinkedIn" class="text-neutral-400 hover:text-blue-400 transition"><i
+                    data-feather="linkedin" class="w-4 h-4"></i></a>
+            <a href="https://www.instagram.com/10erandom/" target="_blank" rel="noopener noreferrer" title="Instagram"
+                class="text-neutral-400 hover:text-pink-400 transition"><i data-feather="instagram"
+                    class="w-4 h-4"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100085239720896" target="_blank" rel="noopener noreferrer"
+                title="Facebook" class="text-neutral-400 hover:text-blue-500 transition"><i data-feather="facebook"
+                    class="w-4 h-4"></i></a>
+            <button onclick="openEmailModal()" title="Compose Email"
+                class="text-neutral-400 hover:text-amber-400 transition cursor-pointer"><i data-feather="mail"
+                    class="w-4 h-4"></i></button>
+        </div>
+        <a href="#hero"
+            class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white text-black hover:bg-neutral-200 transition">Top
+            ↑</a>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        feather.replace();
+
+        // 1. Lenis Smooth Scroll
+        const lenis = new Lenis({ duration: 0.8, smoothWheel: true, wheelMultiplier: 0.9 });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+
+        // 2. GSAP Sticky Hero Breakdown
+        gsap.registerPlugin(ScrollTrigger);
+        const heroTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "+=1800",
+                pin: true,
+                scrub: 0.6,
+                anticipatePin: 1,
+            }
+        });
+
+        heroTl
+            .to("#hero-title", { scale: 0.6, opacity: 0.2, y: -60, ease: "power1.inOut" }, 0)
+            .to("#hero-subtitle", { opacity: 0, y: -30, ease: "power1.inOut" }, 0)
+            .fromTo("#layer-chassis", { rotateX: 0, rotateY: 0, z: 0, scale: 1, opacity: 0.9 }, { rotateX: 25, rotateY: -15, z: -250, scale: 1.15, opacity: 0.35, ease: "power1.out" }, 0)
+            .fromTo("#layer-pcb", { rotateX: 0, rotateY: 0, z: 0, scale: 0.95, opacity: 0.5 }, { rotateX: 28, rotateY: -12, z: 50, x: -40, y: 30, scale: 1, opacity: 0.9, ease: "power1.out" }, 0.1)
+            .fromTo("#layer-chip", { rotateX: 0, rotateY: 0, z: 0, scale: 0.7, opacity: 0 }, { rotateX: 20, rotateY: -10, z: 320, x: 80, y: -20, scale: 1.25, opacity: 1, ease: "power2.out" }, 0.2)
+            .fromTo("#layer-cooler", { rotateX: 0, rotateY: 0, z: 0, scale: 0.8, opacity: 0 }, { rotateX: 35, rotateY: -20, z: 450, x: -70, y: -90, scale: 1.05, opacity: 0.75, ease: "power2.out" }, 0.3);
+
+        // 3. Anime.js Signature SVG Line Drawing Loop
+        anime({
+            targets: '.svg-polygon, .svg-circle',
+            strokeDashoffset: [anime.setDashoffset, 0],
+            easing: 'easeInOutSine',
+            duration: 3500,
+            delay: function (el, i) { return i * 250 },
+            direction: 'alternate',
+            loop: true
+        });
+
+        // 4. Anime.js Spring Boxes
+        anime({
+            targets: '.spring-box',
+            translateY: [-20, 20],
+            rotate: function () { return anime.random(-15, 15); },
+            borderRadius: ['25%', '50%', '25%'],
+            duration: 1800,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutQuad',
+            delay: anime.stagger(200)
+        });
+
+        // 5. Anime.js Orbital System
+        const orbitTl = anime.timeline({ loop: true });
+        orbitTl.add({
+            targets: '.orbit-node',
+            rotate: 360,
+            translateX: [0, 45, 0],
+            translateY: [0, -45, 0],
+            scale: [1, 1.3, 1],
+            duration: 3000,
+            easing: 'easeInOutSine',
+            delay: anime.stagger(400)
+        });
+
+        function triggerOrbitExplosion() {
+            anime({
+                targets: '.orbit-node',
+                scale: [1, 2.5, 1],
+                translateX: [0, anime.random(-80, 80)],
+                translateY: [0, anime.random(-80, 80)],
+                duration: 800,
+                easing: 'easeOutElastic(1, .5)'
+            });
+            anime({
+                targets: '.orbit-center',
+                scale: [1, 1.8, 1],
+                duration: 400,
+                easing: 'easeInOutQuad'
+            });
+        }
+
+        // 6. Kinetic Text Highlighter
+        gsap.utils.toArray('.highlight-text').forEach((textEl) => {
+            gsap.fromTo(textEl,
+                { color: "rgba(255, 255, 255, 0.15)" },
+                {
+                    color: "#ffffff",
+                    scrollTrigger: {
+                        trigger: textEl,
+                        start: "top 75%",
+                        end: "bottom 45%",
+                        scrub: 0.5,
+                    }
+                }
+            );
+        });
+
+        // 7. Horizontal Scroll Slider
+        const track = document.getElementById("projects-track");
+        gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth),
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#projects-pin",
+                start: "top top",
+                end: () => "+=" + (track.scrollWidth - window.innerWidth),
+                pin: true,
+                scrub: 0.8,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+            }
+        });
+
+        // 8. 3D Card Parallax
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 9. Interactive Terminal
+        function handleTerminalSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('term-input');
+            const output = document.getElementById('terminal-output');
+            const val = input.value.trim().toLowerCase();
+
+            const userLine = document.createElement('div');
+            userLine.innerHTML = `<span class="text-emerald-400">❯</span> ${input.value}`;
+            output.appendChild(userLine);
+
+            const resp = document.createElement('div');
+            resp.className = "text-neutral-400 text-xs";
+
+            switch (val) {
+                case 'help':
+                    resp.innerHTML = "Available commands: <span class='text-white'>skills</span>, <span class='text-white'>projects</span>, <span class='text-white'>contact</span>, <span class='text-white'>blueprint</span>, <span class='text-white'>clear</span>";
+                    break;
+                case 'skills':
+                    resp.innerHTML = "• Systems & Languages: C, C++, TypeScript, JavaScript, MQL5<br/>• Frontend: Next.js, Tailwind CSS, GSAP, Anime.js, WebGL<br/>• Hardware & Tools: macOS, Linux, Vim, Git";
+                    break;
+                case 'projects':
+                    resp.innerHTML = "1. Algorithmic Execution Core (MQL5/C++)<br/>2. Modern Architectural Studio (WebGL/3D)<br/>3. Kinetic Vector Studio (GSAP/Physics)";
+                    break;
+                case 'contact':
+                    resp.innerHTML = "Email: 10ethevachchandran@gmail.com | WhatsApp: +94 74 328 7586";
+                    break;
+                case 'blueprint':
+                    toggleBlueprintMode();
+                    resp.innerHTML = "Blueprint wireframe mode toggled.";
+                    break;
+                case 'clear':
+                    output.innerHTML = "";
+                    input.value = "";
+                    return;
+                default:
+                    resp.innerHTML = `Command not found: '${val}'. Type 'help' for available commands.`;
+            }
+
+            output.appendChild(resp);
+            output.scrollTop = output.scrollHeight;
+            input.value = "";
+        }
+
+        // 10. Case Study Data & Modal Handlers
+        const projectData = {
+            1: {
+                badge: "QUANTITATIVE TRADING ENGINE",
+                title: "Algorithmic Execution Core",
+                image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200&auto=format&fit=crop",
+                desc: "Designed and engineered for lightning-fast signal evaluation on Gold and crypto markets. Features sub-millisecond execution loops, automated order safety brackets, and real-time tick streaming.",
+                specs: "• Core: MQL5 & C++<br/>• Strategy: Volatility Scalping Engine<br/>• Deployment: Low-Latency Virtual Private Server"
+            },
+            2: {
+                badge: "SPATIAL COMPUTING & 3D",
+                title: "Modern Architectural Studio",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
+                desc: "An interactive spatial layout visualizer built to present luxury coastal resort developments. Incorporates real-time sun/shadow simulations, interactive floorplan toggles, and smooth camera path interpolations.",
+                specs: "• Engine: Three.js / WebGL<br/>• Styling: Tailwind CSS & Framer Physics<br/>• Features: Dynamic CAD Wireframing"
+            },
+            3: {
+                badge: "KINETIC EXPERIMENTS",
+                title: "Kinetic Vector Studio",
+                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
+                desc: "A GPU-accelerated motion engine that calculates dynamic distance vectors across a 225-node grid with zero frame stuttering.",
+                specs: "• Engines: Anime.js & GSAP ScrollTrigger<br/>• Rendering: HTML5 Canvas & Hardware Accelerated Transforms<br/>• Refresh Rate: Native 120Hz Support"
+            }
+        };
+
+        function openCaseStudy(id) {
+            const p = projectData[id];
+            document.getElementById('case-badge').innerText = p.badge;
+            document.getElementById('case-title').innerText = p.title;
+            document.getElementById('case-desc').innerText = p.desc;
+            document.getElementById('case-specs').innerHTML = p.specs;
+            document.getElementById('case-modal-image').style.backgroundImage = `url('${p.image}')`;
+            document.getElementById('case-modal').classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeCaseStudy() {
+            document.getElementById('case-modal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function toggleBlueprintMode() {
+            document.body.classList.toggle('blueprint-mode');
+        }
+
+        function openEmailModal() {
+            document.getElementById('email-modal').classList.remove('opacity-0', 'pointer-events-none');
+        }
+        function closeEmailModal() {
+            document.getElementById('email-modal').classList.add('opacity-0', 'pointer-events-none');
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeEmailModal();
+                closeCaseStudy();
+            }
+        });
+
+        function handleSendEmail(e) {
+            e.preventDefault();
+            const name = document.getElementById('sender-name').value;
+            const subject = document.getElementById('email-subject').value;
+            const message = document.getElementById('email-body').value;
+            const formattedBody = `Name: ${name}\n\nMessage:\n${message}`;
+            const mailtoUrl = `mailto:10ethevachchandran@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
+            window.location.href = mailtoUrl;
+            closeEmailModal();
+        }
+    </script>
+</body>
+
+</html>
