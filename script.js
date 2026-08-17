@@ -240,13 +240,51 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function handleSendEmail(e) {
+// Real Email Dispatcher via Web3Forms API
+async function handleSendEmail(e) {
   e.preventDefault();
+  
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.innerHTML;
+  
   const name = document.getElementById('sender-name').value;
   const subject = document.getElementById('email-subject').value;
   const message = document.getElementById('email-body').value;
-  const formattedBody = `Name: ${name}\n\nMessage:\n${message}`;
-  const mailtoUrl = `mailto:10ethevachchandran@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
-  window.location.href = mailtoUrl;
-  closeEmailModal();
+
+  // Show sending state
+  submitBtn.innerHTML = `<span>Sending...</span>`;
+  submitBtn.disabled = true;
+
+  try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        access_key: "0e509726-80c3-4d77-9985-e19e13b990b1", // <-- PASTE YOUR ACCESS KEY HERE
+        name: name,
+        subject: subject,
+        message: message,
+        from_name: "Portfolio Inquiry"
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("Message sent successfully! Edwien will get back to you soon.");
+      e.target.reset();
+      closeEmailModal();
+    } else {
+      alert("Something went wrong. Please reach out via WhatsApp!");
+    }
+  } catch (error) {
+    alert("Network error. Please try again or reach out on WhatsApp.");
+  } finally {
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
+    feather.replace();
+  }
 }
