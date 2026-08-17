@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edwien Janakan Thevachchandran — Portfolio OS</title>
 
+    <!-- SEO & Social Preview -->
+    <meta name="description"
+        content="Portfolio of Edwien Janakan Thevachchandran — Kinetic Web Architecture & Quantitative Systems." />
+    <meta property="og:title" content="Edwien Janakan Thevachchandran — Portfolio OS" />
+    <meta property="og:description" content="Engineering motion kinetics, architecture, and fluid web experiences." />
+
     <!-- Tailwind CSS & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,122 +27,79 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
 
-    <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #000000;
-            color: #f5f5f7;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease;
-        }
-
-        .font-mono-code {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .gpu-accel {
-            transform: translateZ(0);
-            will-change: transform, opacity;
-        }
-
-        .card-glass {
-            background: rgba(18, 18, 20, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(16px);
-        }
-
-        .grid-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
-            transition: background-color 0.3s;
-        }
-
-        .social-btn {
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .social-btn:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.4);
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .exploded-stage {
-            perspective: 1200px;
-            transform-style: preserve-3d;
-        }
-
-        .tilt-card {
-            transform-style: preserve-3d;
-            transition: transform 0.15s ease-out, border-color 0.3s ease;
-        }
-
-        body.blueprint-mode {
-            background-color: #050d1a !important;
-            background-image: linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
-            background-size: 32px 32px;
-        }
-
-        body.blueprint-mode .card-glass {
-            border: 1px dashed rgba(96, 165, 250, 0.5) !important;
-            background: rgba(10, 25, 47, 0.85) !important;
-        }
-
-        .anime-char {
-            display: inline-block;
-            will-change: transform, opacity;
-        }
-    </style>
-
-    <!-- SEO & Social Sharing Previews -->
-    <meta name="description"
-        content="Portfolio of Edwien Janakan Thevachchandran — Kinetic Web Architecture & Quantitative Systems." />
-    <meta property="og:title" content="Edwien Janakan Thevachchandran — Portfolio OS" />
-    <meta property="og:description" content="Engineering motion kinetics, architecture, and fluid web experiences." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image"
-        content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <!-- Custom External Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="selection:bg-indigo-500 selection:text-white pb-36">
 
-    <!-- Apple Minimal Navigation -->
-    <nav
-        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-black/80 border-b border-white/10 backdrop-blur-md">
-        <div class="flex items-center gap-3">
-            <div
-                class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shadow-md">
-                E
+    <!-- Apple Mobile-Responsive Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/85 border-b border-white/10 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
+
+            <!-- Brand & Name -->
+            <a href="#hero" class="flex items-center gap-2.5">
+                <div
+                    class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shadow-md flex-shrink-0">
+                    E
+                </div>
+                <span
+                    class="font-bold tracking-tight text-sm md:text-base text-white truncate max-w-[200px] sm:max-w-none">
+                    Edwien Janakan
+                </span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden lg:flex items-center space-x-6 text-sm text-neutral-400">
+                <a href="#hero" class="hover:text-white transition">Overview</a>
+                <a href="#anime-lab" class="hover:text-white transition">Motion Lab</a>
+                <a href="#projects-pin" class="hover:text-white transition">Projects</a>
+                <a href="#terminal-sec" class="hover:text-white transition">Terminal</a>
+                <a href="#compare" class="hover:text-white transition">Specs</a>
+                <a href="#connect" class="hover:text-white transition">Socials</a>
+
+                <button onclick="toggleBlueprintMode()"
+                    class="px-3 py-1 rounded-full text-xs font-mono border border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/20 transition flex items-center gap-1.5 cursor-pointer">
+                    <i data-feather="grid" class="w-3.5 h-3.5"></i>
+                    <span>Blueprint</span>
+                </button>
             </div>
-            <span class="font-bold tracking-tight text-sm md:text-base text-white">Edwien Janakan Thevachchandran</span>
+
+            <!-- Mobile Controls -->
+            <div class="flex lg:hidden items-center gap-2">
+                <button onclick="toggleBlueprintMode()"
+                    class="p-2 rounded-lg bg-white/5 border border-white/10 text-indigo-300">
+                    <i data-feather="grid" class="w-4 h-4"></i>
+                </button>
+                <button onclick="toggleMobileMenu()"
+                    class="p-2 rounded-lg bg-white/5 border border-white/10 text-white">
+                    <i id="menu-icon" data-feather="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+
         </div>
 
-        <div class="flex items-center space-x-6 text-sm text-neutral-400">
-            <a href="#hero" class="hover:text-white transition">Overview</a>
-            <a href="#anime-lab" class="hover:text-white transition">Motion Lab</a>
-            <a href="#projects-pin" class="hover:text-white transition">Projects</a>
-            <a href="#terminal-sec" class="hover:text-white transition">Terminal</a>
-            <a href="#compare" class="hover:text-white transition">Specs</a>
-            <a href="#connect" class="hover:text-white transition">Socials</a>
-
-            <button onclick="toggleBlueprintMode()"
-                class="px-3 py-1 rounded-full text-xs font-mono border border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/20 transition flex items-center gap-1.5 cursor-pointer">
-                <i data-feather="grid" class="w-3.5 h-3.5"></i>
-                <span>Blueprint</span>
-            </button>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu"
+            class="hidden lg:hidden px-6 py-4 bg-neutral-950/95 border-t border-white/10 space-y-3 text-sm font-medium">
+            <a href="#hero" onclick="toggleMobileMenu()"
+                class="block text-neutral-300 hover:text-white py-1">Overview</a>
+            <a href="#anime-lab" onclick="toggleMobileMenu()"
+                class="block text-neutral-300 hover:text-white py-1">Motion Lab</a>
+            <a href="#projects-pin" onclick="toggleMobileMenu()"
+                class="block text-neutral-300 hover:text-white py-1">Projects</a>
+            <a href="#terminal-sec" onclick="toggleMobileMenu()"
+                class="block text-neutral-300 hover:text-white py-1">Terminal</a>
+            <a href="#compare" onclick="toggleMobileMenu()"
+                class="block text-neutral-300 hover:text-white py-1">Specs</a>
+            <a href="#connect" onclick="toggleMobileMenu()"
+                class="block text-neutral-300 hover:text-white py-1">Socials</a>
         </div>
     </nav>
 
-    <!-- Sticky Hero Section with 3D Disassembly & Anime.js Kinetic Headline -->
+    <!-- Sticky Hero Section with 3D Disassembly -->
     <section id="hero"
-        class="relative h-screen w-full flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        class="relative h-screen w-full flex flex-col items-center justify-center text-center px-4 overflow-hidden pt-12">
         <div
             class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(99,102,241,0.18),transparent_60%)] pointer-events-none">
         </div>
@@ -148,14 +111,13 @@
                 Portfolio OS v2.4 • Architecture & Systems
             </div>
 
-            <!-- Scramble / Staggered Anime Title -->
             <h1 id="hero-title"
                 class="gpu-accel text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-600 pb-2 max-w-5xl">
                 Edwien Janakan Thevachchandran.
             </h1>
 
             <p id="hero-subtitle"
-                class="gpu-accel mt-4 text-lg md:text-2xl text-neutral-400 font-normal tracking-wide max-w-xl">
+                class="gpu-accel mt-4 text-base sm:text-lg md:text-2xl text-neutral-400 font-normal tracking-wide max-w-xl">
                 Engineering motion kinetics, architecture, and fluid web experiences.
             </p>
         </div>
@@ -221,7 +183,7 @@
         </div>
     </section>
 
-    <!-- NEW: Anime.js Signature Motion Lab (SVG Line Drawing + Floating Geometry) -->
+    <!-- Anime.js Signature Motion Lab -->
     <section id="anime-lab" class="min-h-screen py-28 px-6 max-w-6xl mx-auto flex flex-col justify-center">
         <div class="text-left mb-16">
             <span class="text-indigo-400 text-xs font-mono tracking-widest uppercase">Anime.js Signature Showcase</span>
@@ -232,9 +194,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- Anime.js SVG Line Tracer -->
-            <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center group">
+            <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center">
                 <span class="text-xs font-mono text-indigo-400 uppercase tracking-wider self-start">01 / SVG Line
                     Draw</span>
                 <div class="py-6">
@@ -248,7 +208,6 @@
                 <p class="text-xs text-neutral-400 font-mono">Dynamic dash-offset stroke path loop</p>
             </div>
 
-            <!-- Anime.js Geometric Spring Physics -->
             <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center">
                 <span class="text-xs font-mono text-purple-400 uppercase tracking-wider self-start">02 / Spring
                     Physics</span>
@@ -260,7 +219,6 @@
                 <p class="text-xs text-neutral-400 font-mono">Spring oscillation: stiffness 120, damping 8</p>
             </div>
 
-            <!-- Anime.js Interactive Orbital Engine -->
             <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center cursor-pointer"
                 onclick="triggerOrbitExplosion()">
                 <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider self-start">03 / Orbital
@@ -275,7 +233,6 @@
                 </div>
                 <p class="text-xs text-neutral-400 font-mono">Click to trigger energy pulse</p>
             </div>
-
         </div>
     </section>
 
@@ -300,7 +257,7 @@
                     specs.</p>
             </div>
 
-            <!-- Project 1 with Image Cover -->
+            <!-- Project 1 -->
             <div onclick="openCaseStudy(1)"
                 class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
                 <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200&auto=format&fit=crop"
@@ -325,7 +282,7 @@
                 <div class="relative z-10 text-xs font-mono text-neutral-400">MQL5 • C++ • WebSocket</div>
             </div>
 
-            <!-- Project 2 with Image Cover -->
+            <!-- Project 2 -->
             <div onclick="openCaseStudy(2)"
                 class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
@@ -350,7 +307,7 @@
                 <div class="relative z-10 text-xs font-mono text-neutral-400">Three.js • WebGL • Tailwind</div>
             </div>
 
-            <!-- Project 3 with Image Cover -->
+            <!-- Project 3 -->
             <div onclick="openCaseStudy(3)"
                 class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
                 <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop"
@@ -427,7 +384,6 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            <!-- Profile 1 -->
             <div class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden group">
                 <div class="h-44 w-full relative overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"
@@ -463,7 +419,6 @@
                 </div>
             </div>
 
-            <!-- Profile 2 -->
             <div
                 class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden border-indigo-500/40 shadow-[0_0_40px_rgba(99,102,241,0.15)] group">
                 <div class="h-44 w-full relative overflow-hidden">
@@ -500,7 +455,6 @@
                 </div>
             </div>
 
-            <!-- Profile 3 -->
             <div class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden group">
                 <div class="h-44 w-full relative overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop"
@@ -556,8 +510,7 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition">
-                    <i data-feather="message-circle" class="w-6 h-6"></i>
-                </div>
+                    <i data-feather="message-circle" class="w-6 h-6"></i></div>
                 <span class="font-semibold text-sm text-white">WhatsApp</span>
                 <span class="text-xs text-neutral-500">Direct Chat</span>
             </a>
@@ -566,8 +519,7 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-neutral-800 text-white group-hover:bg-white group-hover:text-black transition">
-                    <i data-feather="github" class="w-6 h-6"></i>
-                </div>
+                    <i data-feather="github" class="w-6 h-6"></i></div>
                 <span class="font-semibold text-sm text-white">GitHub</span>
                 <span class="text-xs text-neutral-500">@Edwien-IT25102765</span>
             </a>
@@ -577,8 +529,7 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-blue-600/10 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-feather="linkedin" class="w-6 h-6"></i>
-                </div>
+                    <i data-feather="linkedin" class="w-6 h-6"></i></div>
                 <span class="font-semibold text-sm text-white">LinkedIn</span>
                 <span class="text-xs text-neutral-500">Edwien Janakan</span>
             </a>
@@ -587,8 +538,7 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-pink-500/10 text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-yellow-500 group-hover:via-pink-500 group-hover:to-purple-600 group-hover:text-white transition">
-                    <i data-feather="instagram" class="w-6 h-6"></i>
-                </div>
+                    <i data-feather="instagram" class="w-6 h-6"></i></div>
                 <span class="font-semibold text-sm text-white">Instagram</span>
                 <span class="text-xs text-neutral-500">@10erandom</span>
             </a>
@@ -597,8 +547,7 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-blue-500/10 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-feather="facebook" class="w-6 h-6"></i>
-                </div>
+                    <i data-feather="facebook" class="w-6 h-6"></i></div>
                 <span class="font-semibold text-sm text-white">Facebook</span>
                 <span class="text-xs text-neutral-500">Edwien Janakan</span>
             </a>
@@ -607,8 +556,7 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group cursor-pointer text-left w-full">
                 <div
                     class="p-3 rounded-2xl bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-black transition">
-                    <i data-feather="mail" class="w-6 h-6"></i>
-                </div>
+                    <i data-feather="mail" class="w-6 h-6"></i></div>
                 <span class="font-semibold text-sm text-white">Email</span>
                 <span class="text-xs text-neutral-500">Send Message</span>
             </button>
@@ -727,247 +675,8 @@
             ↑</a>
     </div>
 
-    <!-- Scripts -->
-    <script>
-        feather.replace();
-
-        // 1. Lenis Smooth Scroll
-        const lenis = new Lenis({ duration: 0.8, smoothWheel: true, wheelMultiplier: 0.9 });
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => lenis.raf(time * 1000));
-        gsap.ticker.lagSmoothing(0);
-
-        // 2. GSAP Sticky Hero Breakdown
-        gsap.registerPlugin(ScrollTrigger);
-        const heroTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#hero",
-                start: "top top",
-                end: "+=1800",
-                pin: true,
-                scrub: 0.6,
-                anticipatePin: 1,
-            }
-        });
-
-        heroTl
-            .to("#hero-title", { scale: 0.6, opacity: 0.2, y: -60, ease: "power1.inOut" }, 0)
-            .to("#hero-subtitle", { opacity: 0, y: -30, ease: "power1.inOut" }, 0)
-            .fromTo("#layer-chassis", { rotateX: 0, rotateY: 0, z: 0, scale: 1, opacity: 0.9 }, { rotateX: 25, rotateY: -15, z: -250, scale: 1.15, opacity: 0.35, ease: "power1.out" }, 0)
-            .fromTo("#layer-pcb", { rotateX: 0, rotateY: 0, z: 0, scale: 0.95, opacity: 0.5 }, { rotateX: 28, rotateY: -12, z: 50, x: -40, y: 30, scale: 1, opacity: 0.9, ease: "power1.out" }, 0.1)
-            .fromTo("#layer-chip", { rotateX: 0, rotateY: 0, z: 0, scale: 0.7, opacity: 0 }, { rotateX: 20, rotateY: -10, z: 320, x: 80, y: -20, scale: 1.25, opacity: 1, ease: "power2.out" }, 0.2)
-            .fromTo("#layer-cooler", { rotateX: 0, rotateY: 0, z: 0, scale: 0.8, opacity: 0 }, { rotateX: 35, rotateY: -20, z: 450, x: -70, y: -90, scale: 1.05, opacity: 0.75, ease: "power2.out" }, 0.3);
-
-        // 3. Anime.js Signature SVG Line Drawing Loop
-        anime({
-            targets: '.svg-polygon, .svg-circle',
-            strokeDashoffset: [anime.setDashoffset, 0],
-            easing: 'easeInOutSine',
-            duration: 3500,
-            delay: function (el, i) { return i * 250 },
-            direction: 'alternate',
-            loop: true
-        });
-
-        // 4. Anime.js Spring Boxes
-        anime({
-            targets: '.spring-box',
-            translateY: [-20, 20],
-            rotate: function () { return anime.random(-15, 15); },
-            borderRadius: ['25%', '50%', '25%'],
-            duration: 1800,
-            direction: 'alternate',
-            loop: true,
-            easing: 'easeInOutQuad',
-            delay: anime.stagger(200)
-        });
-
-        // 5. Anime.js Orbital System
-        const orbitTl = anime.timeline({ loop: true });
-        orbitTl.add({
-            targets: '.orbit-node',
-            rotate: 360,
-            translateX: [0, 45, 0],
-            translateY: [0, -45, 0],
-            scale: [1, 1.3, 1],
-            duration: 3000,
-            easing: 'easeInOutSine',
-            delay: anime.stagger(400)
-        });
-
-        function triggerOrbitExplosion() {
-            anime({
-                targets: '.orbit-node',
-                scale: [1, 2.5, 1],
-                translateX: [0, anime.random(-80, 80)],
-                translateY: [0, anime.random(-80, 80)],
-                duration: 800,
-                easing: 'easeOutElastic(1, .5)'
-            });
-            anime({
-                targets: '.orbit-center',
-                scale: [1, 1.8, 1],
-                duration: 400,
-                easing: 'easeInOutQuad'
-            });
-        }
-
-        // 6. Kinetic Text Highlighter
-        gsap.utils.toArray('.highlight-text').forEach((textEl) => {
-            gsap.fromTo(textEl,
-                { color: "rgba(255, 255, 255, 0.15)" },
-                {
-                    color: "#ffffff",
-                    scrollTrigger: {
-                        trigger: textEl,
-                        start: "top 75%",
-                        end: "bottom 45%",
-                        scrub: 0.5,
-                    }
-                }
-            );
-        });
-
-        // 7. Horizontal Scroll Slider
-        const track = document.getElementById("projects-track");
-        gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth),
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#projects-pin",
-                start: "top top",
-                end: () => "+=" + (track.scrollWidth - window.innerWidth),
-                pin: true,
-                scrub: 0.8,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
-            }
-        });
-
-        // 8. 3D Card Parallax
-        document.querySelectorAll('.tilt-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            });
-        });
-
-        // 9. Interactive Terminal
-        function handleTerminalSubmit(e) {
-            e.preventDefault();
-            const input = document.getElementById('term-input');
-            const output = document.getElementById('terminal-output');
-            const val = input.value.trim().toLowerCase();
-
-            const userLine = document.createElement('div');
-            userLine.innerHTML = `<span class="text-emerald-400">❯</span> ${input.value}`;
-            output.appendChild(userLine);
-
-            const resp = document.createElement('div');
-            resp.className = "text-neutral-400 text-xs";
-
-            switch (val) {
-                case 'help':
-                    resp.innerHTML = "Available commands: <span class='text-white'>skills</span>, <span class='text-white'>projects</span>, <span class='text-white'>contact</span>, <span class='text-white'>blueprint</span>, <span class='text-white'>clear</span>";
-                    break;
-                case 'skills':
-                    resp.innerHTML = "• Systems & Languages: C, C++, TypeScript, JavaScript, MQL5<br/>• Frontend: Next.js, Tailwind CSS, GSAP, Anime.js, WebGL<br/>• Hardware & Tools: macOS, Linux, Vim, Git";
-                    break;
-                case 'projects':
-                    resp.innerHTML = "1. Algorithmic Execution Core (MQL5/C++)<br/>2. Modern Architectural Studio (WebGL/3D)<br/>3. Kinetic Vector Studio (GSAP/Physics)";
-                    break;
-                case 'contact':
-                    resp.innerHTML = "Email: 10ethevachchandran@gmail.com | WhatsApp: +94 74 328 7586";
-                    break;
-                case 'blueprint':
-                    toggleBlueprintMode();
-                    resp.innerHTML = "Blueprint wireframe mode toggled.";
-                    break;
-                case 'clear':
-                    output.innerHTML = "";
-                    input.value = "";
-                    return;
-                default:
-                    resp.innerHTML = `Command not found: '${val}'. Type 'help' for available commands.`;
-            }
-
-            output.appendChild(resp);
-            output.scrollTop = output.scrollHeight;
-            input.value = "";
-        }
-
-        // 10. Case Study Data & Modal Handlers
-        const projectData = {
-            1: {
-                badge: "QUANTITATIVE TRADING ENGINE",
-                title: "Algorithmic Execution Core",
-                image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200&auto=format&fit=crop",
-                desc: "Designed and engineered for lightning-fast signal evaluation on Gold and crypto markets. Features sub-millisecond execution loops, automated order safety brackets, and real-time tick streaming.",
-                specs: "• Core: MQL5 & C++<br/>• Strategy: Volatility Scalping Engine<br/>• Deployment: Low-Latency Virtual Private Server"
-            },
-            2: {
-                badge: "SPATIAL COMPUTING & 3D",
-                title: "Modern Architectural Studio",
-                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
-                desc: "An interactive spatial layout visualizer built to present luxury coastal resort developments. Incorporates real-time sun/shadow simulations, interactive floorplan toggles, and smooth camera path interpolations.",
-                specs: "• Engine: Three.js / WebGL<br/>• Styling: Tailwind CSS & Framer Physics<br/>• Features: Dynamic CAD Wireframing"
-            },
-            3: {
-                badge: "KINETIC EXPERIMENTS",
-                title: "Kinetic Vector Studio",
-                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
-                desc: "A GPU-accelerated motion engine that calculates dynamic distance vectors across a 225-node grid with zero frame stuttering.",
-                specs: "• Engines: Anime.js & GSAP ScrollTrigger<br/>• Rendering: HTML5 Canvas & Hardware Accelerated Transforms<br/>• Refresh Rate: Native 120Hz Support"
-            }
-        };
-
-        function openCaseStudy(id) {
-            const p = projectData[id];
-            document.getElementById('case-badge').innerText = p.badge;
-            document.getElementById('case-title').innerText = p.title;
-            document.getElementById('case-desc').innerText = p.desc;
-            document.getElementById('case-specs').innerHTML = p.specs;
-            document.getElementById('case-modal-image').style.backgroundImage = `url('${p.image}')`;
-            document.getElementById('case-modal').classList.remove('opacity-0', 'pointer-events-none');
-        }
-
-        function closeCaseStudy() {
-            document.getElementById('case-modal').classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function toggleBlueprintMode() {
-            document.body.classList.toggle('blueprint-mode');
-        }
-
-        function openEmailModal() {
-            document.getElementById('email-modal').classList.remove('opacity-0', 'pointer-events-none');
-        }
-        function closeEmailModal() {
-            document.getElementById('email-modal').classList.add('opacity-0', 'pointer-events-none');
-        }
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeEmailModal();
-                closeCaseStudy();
-            }
-        });
-
-        function handleSendEmail(e) {
-            e.preventDefault();
-            const name = document.getElementById('sender-name').value;
-            const subject = document.getElementById('email-subject').value;
-            const message = document.getElementById('email-body').value;
-            const formattedBody = `Name: ${name}\n\nMessage:\n${message}`;
-            const mailtoUrl = `mailto:10ethevachchandran@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
-            window.location.href = mailtoUrl;
-            closeEmailModal();
-        }
-    </script>
+    <!-- Custom External JavaScript -->
+    <script src="script.js"></script>
 </body>
 
 </html>
