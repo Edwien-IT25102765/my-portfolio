@@ -112,7 +112,7 @@
             </div>
 
             <h1 id="hero-title"
-                class="gpu-accel text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-600 pb-2 max-w-5xl">
+                class="gpu-accel dynamic-hero-title font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-600 pb-2 max-w-5xl">
                 Edwien Janakan Thevachchandran.
             </h1>
 
@@ -193,7 +193,7 @@
                 staggered easing loops.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flexible-card-grid">
             <div class="card-glass p-8 rounded-3xl flex flex-col justify-between items-center text-center">
                 <span class="text-xs font-mono text-indigo-400 uppercase tracking-wider self-start">01 / SVG Line
                     Draw</span>
@@ -250,7 +250,7 @@
     <section id="projects-pin" class="relative overflow-hidden bg-neutral-950">
         <div id="projects-track" class="flex items-center h-screen px-12 gap-12 w-[320vw] md:w-[220vw]">
 
-            <div class="w-80 flex-shrink-0">
+            <div class="w-80 flex-shrink-0 snap-slide">
                 <span class="text-xs font-mono text-indigo-400 tracking-widest uppercase">Featured Systems</span>
                 <h3 class="text-4xl md:text-6xl font-black text-white tracking-tight mt-2">Projects in motion.</h3>
                 <p class="text-neutral-500 text-sm mt-3">Scroll vertically to glide. Click any card to expand deep case
@@ -259,7 +259,7 @@
 
             <!-- Project 1 -->
             <div onclick="openCaseStudy(1)"
-                class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
+                class="snap-slide tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
                 <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200&auto=format&fit=crop"
                     alt="Algorithm Trading"
                     class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 group-hover:opacity-35 transition duration-700 pointer-events-none" />
@@ -284,7 +284,7 @@
 
             <!-- Project 2 -->
             <div onclick="openCaseStudy(2)"
-                class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
+                class="snap-slide tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
                     alt="Architectural Villa"
                     class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 group-hover:opacity-35 transition duration-700 pointer-events-none" />
@@ -309,7 +309,7 @@
 
             <!-- Project 3 -->
             <div onclick="openCaseStudy(3)"
-                class="tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
+                class="snap-slide tilt-card relative overflow-hidden w-[75vw] md:w-[45vw] h-[65vh] flex-shrink-0 card-glass rounded-3xl p-8 flex flex-col justify-between hover:border-indigo-400/60 cursor-pointer shadow-2xl group">
                 <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop"
                     alt="Kinetic Engine"
                     class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 group-hover:opacity-35 transition duration-700 pointer-events-none" />
@@ -382,7 +382,7 @@
             </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flexible-card-grid">
 
             <div class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden group">
                 <div class="h-44 w-full relative overflow-hidden">
@@ -504,13 +504,14 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
+        <div class="flexible-card-grid">
             <a href="https://wa.me/94743287586?text=Hi%20Edwien,%20I%20saw%20your%20portfolio!" target="_blank"
                 rel="noopener noreferrer"
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition">
-                    <i data-feather="message-circle" class="w-6 h-6"></i></div>
+                    <i data-feather="message-circle" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">WhatsApp</span>
                 <span class="text-xs text-neutral-500">Direct Chat</span>
             </a>
@@ -519,7 +520,8 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-neutral-800 text-white group-hover:bg-white group-hover:text-black transition">
-                    <i data-feather="github" class="w-6 h-6"></i></div>
+                    <i data-feather="github" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">GitHub</span>
                 <span class="text-xs text-neutral-500">@Edwien-IT25102765</span>
             </a>
@@ -529,7 +531,8 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-blue-600/10 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-feather="linkedin" class="w-6 h-6"></i></div>
+                    <i data-feather="linkedin" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">LinkedIn</span>
                 <span class="text-xs text-neutral-500">Edwien Janakan</span>
             </a>
@@ -538,7 +541,8 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-pink-500/10 text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-yellow-500 group-hover:via-pink-500 group-hover:to-purple-600 group-hover:text-white transition">
-                    <i data-feather="instagram" class="w-6 h-6"></i></div>
+                    <i data-feather="instagram" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">Instagram</span>
                 <span class="text-xs text-neutral-500">@10erandom</span>
             </a>
@@ -547,7 +551,8 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-blue-500/10 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-feather="facebook" class="w-6 h-6"></i></div>
+                    <i data-feather="facebook" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">Facebook</span>
                 <span class="text-xs text-neutral-500">Edwien Janakan</span>
             </a>
@@ -556,7 +561,8 @@
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group cursor-pointer text-left w-full">
                 <div
                     class="p-3 rounded-2xl bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-black transition">
-                    <i data-feather="mail" class="w-6 h-6"></i></div>
+                    <i data-feather="mail" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">Email</span>
                 <span class="text-xs text-neutral-500">Send Message</span>
             </button>
