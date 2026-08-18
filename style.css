@@ -1,8 +1,9 @@
-/* Core Styling & Dark Baseline */
+/* Core Styling: Pure Black, Deep Blue Accents & White Baseline */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #000000;
-    color: #f5f5f7;
+    background-color: #020617;
+    /* Slate Black */
+    color: #ffffff;
     overflow-x: hidden;
     transition: background-color 0.3s ease;
 }
@@ -11,28 +12,112 @@ body {
     font-family: 'JetBrains Mono', monospace;
 }
 
-/* GPU Hardware Acceleration */
-.gpu-accel {
-    transform: translateZ(0);
-    will-change: transform, opacity;
+/* Glowing Scroll Progress Bar with Red-to-Blue Spectrum */
+#scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ef4444, #3b82f6, #60a5fa);
+    z-index: 100;
+    width: 0%;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+    transition: width 0.1s ease-out;
 }
 
-/* Apple Frosted Glass Card */
+/* Dynamic Typography */
+.dynamic-hero-title {
+    font-size: clamp(2rem, 6vw + 1rem, 5.5rem);
+    line-height: 1.05;
+}
+
+.dynamic-section-title {
+    font-size: clamp(1.75rem, 4vw + 0.5rem, 3.5rem);
+    line-height: 1.15;
+}
+
+/* Flexible Grid */
+.flexible-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Apple Frosted Glass Card with Flashlight Spotlight Effect */
 .card-glass {
-    background: rgba(18, 18, 20, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-glass::before {
+    content: '';
+    position: absolute;
+    top: var(--mouse-y, -200px);
+    left: var(--mouse-x, -200px);
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.card-glass:hover::before {
+    opacity: 1;
+}
+
+.card-glass:hover {
+    transform: scale(1.02);
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 0 25px rgba(37, 99, 235, 0.2);
+}
+
+.card-glass:active {
+    transform: scale(0.98);
 }
 
 /* Social Buttons */
 .social-btn {
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .social-btn:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.4);
-    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px) scale(1.04);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.social-btn:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* Crisp Vector Rendering */
+svg,
+i[data-feather] {
+    shape-rendering: geometricPrecision;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Scroll Snap */
+#projects-pin {
+    scroll-snap-type: x mandatory;
+}
+
+.snap-slide {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+/* GPU Hardware Acceleration */
+.gpu-accel {
+    transform: translateZ(0);
+    will-change: transform, opacity;
 }
 
 /* 3D Perspective Stages */
@@ -46,60 +131,74 @@ body {
     transition: transform 0.15s ease-out, border-color 0.3s ease;
 }
 
-/* Blueprint / CAD Wireframe Mode */
+/* Blueprint Mode */
 body.blueprint-mode {
-    background-color: #050d1a !important;
-    background-image: linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
+    background-color: #020817 !important;
+    background-image: linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px);
     background-size: 32px 32px;
 }
 
 body.blueprint-mode .card-glass {
-    border: 1px dashed rgba(96, 165, 250, 0.5) !important;
-    background: rgba(10, 25, 47, 0.85) !important;
+    border: 1px dashed rgba(96, 165, 250, 0.6) !important;
+    background: rgba(10, 25, 47, 0.9) !important;
 }
 
-.dynamic-hero-title {
-    font-size: clamp(2rem, 6vw + 1rem, 5.5rem);
-    line-height: 1.05;
+/* Custom Magnetic Cursor */
+@media (pointer: fine) {
+    body {
+        cursor: none;
+    }
+
+    a,
+    button,
+    input,
+    textarea,
+    select {
+        cursor: none !important;
+    }
 }
 
-.dynamic-section-title {
-    font-size: clamp(1.75rem, 4vw + 0.5rem, 3.5rem);
-    line-height: 1.15;
+#custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background-color: #60a5fa;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    /* Hidden by default until mouse moves */
+    transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
-.flexible-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+#custom-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(96, 165, 250, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    /* Hidden by default until mouse moves */
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        opacity 0.2s ease;
 }
 
-.card-glass {
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
-}
-
-.card-glass:hover {
-    transform: scale(1.02);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.card-glass:active {
-    transform: scale(0.98);
-}
-
-svg,
-i[data-feather] {
-    shape-rendering: geometricPrecision;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-#projects-pin {
-    scroll-snap-type: x mandatory;
-}
-
-.snap-slide {
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
+#custom-cursor-ring.cursor-hover {
+    width: 54px;
+    height: 54px;
+    background-color: rgba(59, 130, 246, 0.18);
+    border-color: rgba(96, 165, 250, 0.9);
+    backdrop-filter: blur(4px);
 }
