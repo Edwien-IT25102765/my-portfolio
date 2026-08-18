@@ -154,17 +154,14 @@ i[data-feather] {
     touch-action: none;
     -webkit-user-select: none;
     user-select: none;
-    pointer-events: none;
+}
+
+#hero-rotator {
+    transform-style: preserve-3d;
 }
 
 .exploded-stage.inspect-active {
     cursor: grab;
-    pointer-events: auto !important;
-}
-
-.exploded-stage.inspect-active * {
-    pointer-events: none;
-    /* Prevents child chip/PCB elements from swallowing the drag in Brave */
 }
 
 .exploded-stage.inspect-active:active {

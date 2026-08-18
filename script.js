@@ -77,10 +77,11 @@ heroTl
 
 
 // ==========================================
-// 6. 3D HARDWARE INSPECTION ENGINE (CROSS-BROWSER)
+// 6. 3D HARDWARE INSPECTION ENGINE (ISOLATED)
 // ==========================================
 let isInspectActive = false;
 const heroStage = document.getElementById('hero-stage');
+const heroRotator = document.getElementById('hero-rotator') || heroStage;
 const inspectBtnText = document.getElementById('inspect-btn-text');
 const inspectIcon = document.getElementById('inspect-icon');
 
@@ -98,7 +99,6 @@ function toggleHardwareInspect() {
     inspectBtnText.innerText = "Exit 3D Inspection Mode";
     if (inspectIcon) inspectIcon.setAttribute('data-feather', 'x');
     feather.replace();
-    heroTl.pause();
   } else {
     heroStage.classList.remove('inspect-active');
     inspectBtnText.innerText = "Enable 3D Drag Inspection";
@@ -109,28 +109,27 @@ function toggleHardwareInspect() {
     stageRotX = 0;
     stageRotY = 0;
     
-    gsap.to(heroStage, {
+    gsap.to(heroRotator, {
       rotateX: 0,
       rotateY: 0,
-      duration: 0.5,
+      duration: 0.45,
       ease: "power2.out",
       onComplete: () => {
-        heroStage.style.transform = "";
-        heroTl.resume();
-        ScrollTrigger.refresh();
+        heroRotator.style.transform = "";
       }
     });
   }
 }
 
-// Universal Pointer Events (Brave + Safari + Chrome + Firefox)
 heroStage.addEventListener('pointerdown', (e) => {
   if (!isInspectActive) return;
-  e.preventDefault(); // Blocks Chromium native dragstart glitch
+  e.preventDefault();
   isDraggingStage = true;
   startPointerX = e.clientX;
   startPointerY = e.clientY;
-  heroStage.setPointerCapture(e.pointerId); // Locks pointer track to container
+  try {
+    heroStage.setPointerCapture(e.pointerId);
+  } catch(err) {}
 });
 
 heroStage.addEventListener('pointermove', (e) => {
@@ -143,11 +142,10 @@ heroStage.addEventListener('pointermove', (e) => {
   stageRotY += deltaX * 0.35;
   stageRotX -= deltaY * 0.35;
   
-  // Clamping prevents inverting inside out
-  stageRotX = Math.max(-65, Math.min(65, stageRotX));
-  stageRotY = Math.max(-65, Math.min(65, stageRotY));
+  stageRotX = Math.max(-60, Math.min(60, stageRotX));
+  stageRotY = Math.max(-60, Math.min(60, stageRotY));
   
-  heroStage.style.transform = `perspective(1200px) rotateX(${stageRotX}deg) rotateY(${stageRotY}deg)`;
+  heroRotator.style.transform = `rotateX(${stageRotX.toFixed(2)}deg) rotateY(${stageRotY.toFixed(2)}deg)`;
   startPointerX = e.clientX;
   startPointerY = e.clientY;
 });
