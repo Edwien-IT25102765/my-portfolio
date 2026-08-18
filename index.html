@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" data-theme="default">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edwien Janakan Thevachchandran — Portfolio</title>
 
-    <!-- SEO & Social Preview -->
     <meta name="description"
         content="Portfolio of Edwien Janakan Thevachchandran — Kinetic Web Architecture & Quantitative Systems." />
     <meta property="og:title" content="Edwien Janakan Thevachchandran — Portfolio" />
@@ -27,7 +26,6 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
 
-    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -36,15 +34,14 @@
     <!-- Glowing Scroll Progress Bar -->
     <div id="scroll-progress-bar"></div>
 
-    <!-- Fluid Magnetic Cursor Elements -->
+    <!-- Fluid Magnetic Cursor -->
     <div id="custom-cursor-dot"></div>
     <div id="custom-cursor-ring"></div>
 
-    <!-- Apple Mobile-Responsive Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#020617]/85 border-b border-white/10 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
 
-            <!-- Brand & Name -->
             <a href="#hero" class="flex items-center gap-2.5">
                 <div
                     class="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-red-500 flex items-center justify-center text-xs font-bold text-white shadow-md flex-shrink-0 shadow-blue-500/30">
@@ -56,7 +53,7 @@
                 </span>
             </a>
 
-            <!-- Desktop Navigation Links with Active Trackers -->
+            <!-- Desktop Navigation Links & Dynamic Theme Switcher -->
             <div class="hidden lg:flex items-center space-x-6 text-sm text-neutral-400 font-medium">
                 <a href="#hero" class="nav-link hover:text-blue-400 transition" data-section="hero">Overview</a>
                 <a href="#anime-lab" class="nav-link hover:text-blue-400 transition" data-section="anime-lab">Motion
@@ -67,6 +64,16 @@
                     data-section="terminal-sec">Terminal</a>
                 <a href="#compare" class="nav-link hover:text-blue-400 transition" data-section="compare">Specs</a>
                 <a href="#connect" class="nav-link hover:text-blue-400 transition" data-section="connect">Socials</a>
+
+                <!-- Theme Switcher Pill -->
+                <div class="flex items-center bg-white/5 border border-white/10 rounded-full p-1 gap-1">
+                    <button onclick="setTheme('default')" title="Azure Blue Theme"
+                        class="w-4 h-4 rounded-full bg-blue-500 cursor-pointer"></button>
+                    <button onclick="setTheme('cyber')" title="Cyberpunk Theme"
+                        class="w-4 h-4 rounded-full bg-pink-500 cursor-pointer"></button>
+                    <button onclick="setTheme('minimal')" title="Monochrome Theme"
+                        class="w-4 h-4 rounded-full bg-zinc-300 cursor-pointer"></button>
+                </div>
 
                 <button onclick="toggleBlueprintMode()"
                     class="px-3 py-1 rounded-full text-xs font-mono border border-blue-500/40 text-blue-300 hover:bg-blue-500/20 transition flex items-center gap-1.5 cursor-pointer shadow-sm">
@@ -104,6 +111,15 @@
                 class="block text-neutral-300 hover:text-blue-400 py-1">Specs</a>
             <a href="#connect" onclick="toggleMobileMenu()"
                 class="block text-neutral-300 hover:text-blue-400 py-1">Socials</a>
+            <div class="flex items-center gap-2 pt-2 border-t border-white/10">
+                <span class="text-xs font-mono text-neutral-400">Theme:</span>
+                <button onclick="setTheme('default')"
+                    class="px-2 py-1 text-xs rounded bg-blue-900/50 text-blue-300">Azure</button>
+                <button onclick="setTheme('cyber')"
+                    class="px-2 py-1 text-xs rounded bg-pink-900/50 text-pink-300">Cyber</button>
+                <button onclick="setTheme('minimal')"
+                    class="px-2 py-1 text-xs rounded bg-zinc-800 text-zinc-300">Minimal</button>
+            </div>
         </div>
     </nav>
 
@@ -116,19 +132,26 @@
 
         <div class="z-20 flex flex-col items-center max-w-5xl">
             <h1 id="hero-title"
-                class="gpu-accel dynamic-hero-title font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-100 to-blue-500 pb-2">
+                class="dynamic-hero-title font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-100 to-blue-500 pb-2">
                 Edwien Janakan Thevachchandran.
             </h1>
 
             <p id="hero-subtitle"
-                class="gpu-accel mt-4 text-base sm:text-lg md:text-2xl text-neutral-400 font-normal tracking-wide max-w-xl">
+                class="mt-4 text-base sm:text-lg md:text-2xl text-neutral-400 font-normal tracking-wide max-w-xl">
                 Engineering motion kinetics, architecture, and fluid web experiences.
             </p>
+
+            <!-- 3D Exploded View Inspect Toggle Button -->
+            <button id="inspect-toggle-btn" onclick="toggleHardwareInspect()"
+                class="mt-5 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono text-blue-300 flex items-center gap-2 backdrop-blur-md transition cursor-pointer">
+                <i data-feather="move" class="w-3.5 h-3.5"></i>
+                <span id="inspect-btn-text">Enable 3D Drag Inspection</span>
+            </button>
         </div>
 
-        <!-- 3D Disassembling Computer Stage -->
+        <!-- 3D Disassembling Stage -->
         <div id="hero-stage"
-            class="exploded-stage relative mt-8 w-full max-w-4xl h-80 md:h-[420px] flex items-center justify-center z-10 pointer-events-none">
+            class="exploded-stage relative mt-6 w-full max-w-4xl h-80 md:h-[420px] flex items-center justify-center z-10 pointer-events-none">
             <div id="layer-chassis"
                 class="layer-chassis absolute inset-0 rounded-3xl border-2 border-white/20 bg-slate-950/40 backdrop-blur-sm p-6 flex flex-col justify-between shadow-2xl overflow-hidden">
                 <div
@@ -333,20 +356,27 @@
         </div>
     </section>
 
-    <!-- Interactive Terminal Showcase -->
+    <!-- Interactive Terminal Showcase with Matrix Rain Canvas -->
     <section id="terminal-sec" class="min-h-screen py-24 px-6 max-w-4xl mx-auto flex flex-col justify-center">
         <div class="mb-8 text-center">
             <span class="text-xs font-mono text-blue-400 tracking-widest uppercase">Developer Shell</span>
             <h2 class="dynamic-section-title font-extrabold text-white tracking-tight mt-2">Interactive Terminal</h2>
-            <p class="text-neutral-400 text-sm mt-2">Type commands like <span
-                    class="text-blue-400 font-mono">help</span>, <span class="text-blue-400 font-mono">skills</span>,
-                <span class="text-blue-400 font-mono">projects</span>, or <span
-                    class="text-blue-400 font-mono">clear</span>.</p>
+            <p class="text-neutral-400 text-sm mt-2">Try easter eggs: <span
+                    class="text-blue-400 font-mono">matrix</span>, <span
+                    class="text-blue-400 font-mono">tictactoe</span>, <span
+                    class="text-blue-400 font-mono">theme</span>, <span class="text-blue-400 font-mono">sound</span>.
+            </p>
         </div>
 
         <div
-            class="w-full rounded-2xl card-glass border border-white/20 shadow-2xl overflow-hidden font-mono-code text-sm">
-            <div class="bg-slate-900/90 px-4 py-3 flex items-center justify-between border-b border-white/10">
+            class="relative w-full rounded-2xl card-glass border border-white/20 shadow-2xl overflow-hidden font-mono-code text-sm">
+
+            <!-- Falling Matrix Rain Canvas Layer -->
+            <canvas id="matrix-canvas"
+                class="absolute inset-0 w-full h-full pointer-events-none opacity-0 transition-opacity duration-500 z-10"></canvas>
+
+            <div
+                class="relative z-20 bg-slate-900/90 px-4 py-3 flex items-center justify-between border-b border-white/10">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                     <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -356,13 +386,14 @@
                 <div class="w-8"></div>
             </div>
 
-            <div id="terminal-output" class="p-6 text-neutral-200 space-y-2 h-72 overflow-y-auto bg-slate-950/80">
-                <div>Welcome to Edwien Shell [Version 2.4.0]</div>
-                <div class="text-neutral-500">Type 'help' to see all available commands.</div>
+            <div id="terminal-output"
+                class="relative z-20 p-6 text-neutral-200 space-y-2 h-72 overflow-y-auto bg-slate-950/80">
+                <div>Welcome to Edwien OS Shell [Version 2.5.0]</div>
+                <div class="text-neutral-500">Type 'help' to explore commands & easter eggs.</div>
             </div>
 
             <form onsubmit="handleTerminalSubmit(event)"
-                class="flex items-center px-6 py-3 bg-slate-900/60 border-t border-white/10">
+                class="relative z-20 flex items-center px-6 py-3 bg-slate-900/60 border-t border-white/10">
                 <span class="text-blue-400 mr-2">❯</span>
                 <input id="term-input" type="text" autocomplete="off" placeholder="Type a command..."
                     class="w-full bg-transparent text-white focus:outline-none text-sm font-mono-code" />
@@ -379,7 +410,6 @@
         </div>
 
         <div class="flexible-card-grid">
-
             <div class="card-glass rounded-3xl flex flex-col justify-between overflow-hidden group">
                 <div class="h-44 w-full relative overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"
@@ -485,11 +515,10 @@
                     <div class="text-xs font-mono text-neutral-500">PRECISION VECTOR DRAFTING</div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Connect & Socials Section with Authentic Brand App Colors -->
+    <!-- Connect & Socials Section -->
     <section id="connect" class="min-h-screen py-32 px-6 max-w-6xl mx-auto flex flex-col justify-center text-center">
         <div class="mb-12">
             <span class="text-xs font-mono text-blue-400 tracking-widest uppercase">Direct Channels</span>
@@ -499,73 +528,71 @@
             </p>
         </div>
 
-        <!-- Authentic Brand Icons Grid -->
         <div class="flexible-card-grid">
-            <!-- WhatsApp (Emerald Green) -->
-            <a href="https://wa.me/94743287586?text=Hi%20Edwien,%20I%20saw%20your%20portfolio!" target="_blank"
-                rel="noopener noreferrer"
-                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
+            <button onclick="openSecureWhatsApp()"
+                class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group cursor-pointer w-full text-center">
                 <div
                     class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition">
-                    <i data-feather="message-circle" class="w-6 h-6"></i></div>
+                    <i data-feather="message-circle" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">WhatsApp</span>
                 <span class="text-xs text-neutral-500">Direct Chat</span>
-            </a>
+            </button>
 
-            <!-- GitHub (Monochrome White) -->
             <a href="https://github.com/Edwien-IT25102765" target="_blank" rel="noopener noreferrer"
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-neutral-800 text-white group-hover:bg-white group-hover:text-black transition">
-                    <i data-feather="github" class="w-6 h-6"></i></div>
+                    <i data-feather="github" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">GitHub</span>
                 <span class="text-xs text-neutral-500">@Edwien-IT25102765</span>
             </a>
 
-            <!-- LinkedIn (Blue) -->
             <a href="https://www.linkedin.com/in/edwien-janakan-thevachchandran-638389359/" target="_blank"
                 rel="noopener noreferrer"
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-blue-600/10 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-feather="linkedin" class="w-6 h-6"></i></div>
+                    <i data-feather="linkedin" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">LinkedIn</span>
                 <span class="text-xs text-neutral-500">Edwien Janakan</span>
             </a>
 
-            <!-- Instagram (Gradient Magenta / Pink) -->
             <a href="https://www.instagram.com/10erandom/" target="_blank" rel="noopener noreferrer"
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-pink-500/10 text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-yellow-500 group-hover:via-pink-500 group-hover:to-purple-600 group-hover:text-white transition">
-                    <i data-feather="instagram" class="w-6 h-6"></i></div>
+                    <i data-feather="instagram" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">Instagram</span>
                 <span class="text-xs text-neutral-500">@10erandom</span>
             </a>
 
-            <!-- Facebook (Classic Blue) -->
             <a href="https://www.facebook.com/profile.php?id=100085239720896" target="_blank" rel="noopener noreferrer"
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group">
                 <div
                     class="p-3 rounded-2xl bg-blue-500/10 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-feather="facebook" class="w-6 h-6"></i></div>
+                    <i data-feather="facebook" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">Facebook</span>
                 <span class="text-xs text-neutral-500">Edwien Janakan</span>
             </a>
 
-            <!-- Email (Warm Amber) -->
             <button onclick="openEmailModal()"
                 class="social-btn card-glass p-6 rounded-3xl flex flex-col items-center justify-center gap-3 group cursor-pointer text-left w-full">
                 <div
                     class="p-3 rounded-2xl bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-black transition">
-                    <i data-feather="mail" class="w-6 h-6"></i></div>
+                    <i data-feather="mail" class="w-6 h-6"></i>
+                </div>
                 <span class="font-semibold text-sm text-white">Email</span>
                 <span class="text-xs text-neutral-500">Send Message</span>
             </button>
         </div>
     </section>
 
-    <!-- Case Study Modal with Click-Outside-to-Close -->
+    <!-- Case Study Modal -->
     <div id="case-modal" onclick="handleCaseModalBackdropClick(event)"
         class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
         <div id="case-modal-card"
@@ -618,7 +645,7 @@
         </div>
     </div>
 
-    <!-- Email Composer Modal with Click-Outside-to-Close -->
+    <!-- Email Composer Modal -->
     <div id="email-modal" onclick="handleEmailModalBackdropClick(event)"
         class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
         <div id="email-modal-card"
@@ -634,6 +661,8 @@
             </div>
 
             <form onsubmit="handleSendEmail(event)" class="space-y-4 text-left">
+                <input id="honeypot-check" type="text" name="honeypot_field" style="display:none !important;"
+                    tabindex="-1" autocomplete="off" />
                 <div>
                     <label class="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1">Your
                         Name</label>
@@ -665,14 +694,14 @@
         </div>
     </div>
 
-    <!-- Dynamic Island with Authentic App Icons -->
+    <!-- Dynamic Island -->
     <div id="dynamic-island"
         class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 sm:gap-4 px-4 py-2 rounded-full bg-slate-900/90 border border-white/20 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-blue-400/60">
         <div class="flex items-center gap-2.5 sm:gap-3.5">
-            <a href="https://wa.me/94743287586?text=Hi%20Edwien,%20I%20saw%20your%20portfolio!" target="_blank"
-                rel="noopener noreferrer" title="WhatsApp"
-                class="text-neutral-400 hover:text-emerald-400 transition p-1"><i data-feather="message-circle"
-                    class="w-4 h-4"></i></a>
+            <button onclick="openSecureWhatsApp()" title="WhatsApp"
+                class="text-neutral-400 hover:text-emerald-400 transition p-1 cursor-pointer">
+                <i data-feather="message-circle" class="w-4 h-4"></i>
+            </button>
             <a href="https://github.com/Edwien-IT25102765" target="_blank" rel="noopener noreferrer" title="GitHub"
                 class="text-neutral-400 hover:text-white transition p-1"><i data-feather="github"
                     class="w-4 h-4"></i></a>
@@ -695,14 +724,12 @@
             </button>
         </div>
 
-        <!-- Responsive Top Button -->
         <a href="#hero"
             class="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-500 transition flex items-center justify-center flex-shrink-0 shadow-sm shadow-blue-500/30">
             <span class="hidden sm:inline">Top&nbsp;</span>↑
         </a>
     </div>
 
-    <!-- Custom External JavaScript -->
     <script src="script.js"></script>
 </body>
 

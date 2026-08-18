@@ -1,13 +1,20 @@
-// Initialize Feather Icons
 feather.replace();
 
-// 1. Mobile Menu Toggle
+// 1. Theme Engine
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('portfolio-theme', theme);
+}
+const savedTheme = localStorage.getItem('portfolio-theme');
+if (savedTheme) setTheme(savedTheme);
+
+// 2. Mobile Menu Toggle
 function toggleMobileMenu() {
   const menu = document.getElementById('mobile-menu');
   menu.classList.toggle('hidden');
 }
 
-// 2. Lenis Smooth Scroll Engine + Scroll Progress Bar Tracker
+// 3. Lenis Smooth Scroll Engine + Scroll Progress Tracker
 const progressBar = document.getElementById('scroll-progress-bar');
 const lenis = new Lenis({
   duration: 0.8,
@@ -26,7 +33,7 @@ lenis.on('scroll', (e) => {
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
-// 3. Active Navigation Link Tracker
+// 4. Active Navigation Link Tracker
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-link');
 
@@ -47,7 +54,7 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// 4. GSAP Sticky Hero Hardware Disassembly
+// 5. GSAP Sticky Hero Hardware Disassembly
 gsap.registerPlugin(ScrollTrigger);
 const heroTl = gsap.timeline({
   scrollTrigger: {
@@ -68,7 +75,93 @@ heroTl
   .fromTo("#layer-chip", { rotateX: 0, rotateY: 0, z: 0, scale: 0.7, opacity: 0 }, { rotateX: 20, rotateY: -10, z: 320, x: 80, y: -20, scale: 1.25, opacity: 1, ease: "power2.out" }, 0.2)
   .fromTo("#layer-cooler", { rotateX: 0, rotateY: 0, z: 0, scale: 0.8, opacity: 0 }, { rotateX: 35, rotateY: -20, z: 450, x: -70, y: -90, scale: 1.05, opacity: 0.75, ease: "power2.out" }, 0.3);
 
-// 5. Anime.js SVG Line Drawing Loop
+
+// 6. 3D HARDWARE INSPECTION MODE (FIXED)
+let isInspectActive = false;
+const heroStage = document.getElementById('hero-stage');
+const inspectBtnText = document.getElementById('inspect-btn-text');
+const inspectIcon = document.getElementById('inspect-icon');
+
+let isDraggingStage = false;
+let startMouseX = 0;
+let startMouseY = 0;
+let stageRotX = 0;
+let stageRotY = 0;
+
+function toggleHardwareInspect() {
+  isInspectActive = !isInspectActive;
+  
+  if (isInspectActive) {
+    heroStage.classList.add('inspect-active');
+    inspectBtnText.innerText = "Exit 3D Inspection Mode";
+    if (inspectIcon) inspectIcon.setAttribute('data-feather', 'x');
+    feather.replace();
+  } else {
+    heroStage.classList.remove('inspect-active');
+    inspectBtnText.innerText = "Enable 3D Drag Inspection";
+    if (inspectIcon) inspectIcon.setAttribute('data-feather', 'move');
+    feather.replace();
+    
+    isDraggingStage = false;
+    stageRotX = 0;
+    stageRotY = 0;
+    
+    // Animate stage smoothly back to baseline flat rotation
+    gsap.to(heroStage, {
+      rotateX: 0,
+      rotateY: 0,
+      duration: 0.5,
+      ease: "power2.out",
+      onComplete: () => {
+        heroStage.style.transform = "";
+        ScrollTrigger.refresh();
+      }
+    });
+  }
+}
+
+heroStage.addEventListener('mousedown', (e) => {
+  if (!isInspectActive) return;
+  isDraggingStage = true;
+  startMouseX = e.clientX;
+  startMouseY = e.clientY;
+});
+
+window.addEventListener('mouseup', () => { 
+  isDraggingStage = false; 
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isInspectActive || !isDraggingStage) return;
+  const deltaX = e.clientX - startMouseX;
+  const deltaY = e.clientY - startMouseY;
+  
+  stageRotY += deltaX * 0.35;
+  stageRotX -= deltaY * 0.35;
+  
+  // Clamp maximum tilt angles so layers don't invert or flip upside down
+  stageRotX = Math.max(-60, Math.min(60, stageRotX));
+  stageRotY = Math.max(-60, Math.min(60, stageRotY));
+  
+  heroStage.style.transform = `perspective(1200px) rotateX(${stageRotX}deg) rotateY(${stageRotY}deg)`;
+  startMouseX = e.clientX;
+  startMouseY = e.clientY;
+});
+
+// 7. 3D Gyroscopic Device Orientation for Mobile
+if (window.DeviceOrientationEvent && ('ontouchstart' in window) && window.innerWidth < 768) {
+  window.addEventListener('deviceorientation', (e) => {
+    if (e.gamma === null || e.beta === null) return;
+    const gamma = Math.min(Math.max(e.gamma, -30), 30);
+    const beta = Math.min(Math.max(e.beta - 45, -30), 30);
+    
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.style.transform = `perspective(1000px) rotateX(${beta / 2}deg) rotateY(${gamma / 2}deg)`;
+    });
+  });
+}
+
+// 8. Anime.js Motion Lab Animations
 anime({
   targets: '.svg-polygon, .svg-circle',
   strokeDashoffset: [anime.setDashoffset, 0],
@@ -79,7 +172,6 @@ anime({
   loop: true
 });
 
-// 6. Anime.js Spring Boxes
 anime({
   targets: '.spring-box',
   translateY: [-20, 20],
@@ -92,7 +184,6 @@ anime({
   delay: anime.stagger(200)
 });
 
-// 7. Anime.js Orbital System
 const orbitTl = anime.timeline({ loop: true });
 orbitTl.add({
   targets: '.orbit-node',
@@ -122,7 +213,7 @@ function triggerOrbitExplosion() {
   });
 }
 
-// 8. Kinetic Text Highlighter
+// 9. Kinetic Text Highlighter
 gsap.utils.toArray('.highlight-text').forEach((textEl) => {
   gsap.fromTo(textEl, 
     { color: "rgba(255, 255, 255, 0.15)" },
@@ -138,7 +229,7 @@ gsap.utils.toArray('.highlight-text').forEach((textEl) => {
   );
 });
 
-// 9. Horizontal Scroll Project Slider
+// 10. Horizontal Scroll Project Slider
 const track = document.getElementById("projects-track");
 gsap.to(track, {
   x: () => -(track.scrollWidth - window.innerWidth),
@@ -154,31 +245,91 @@ gsap.to(track, {
   }
 });
 
-// 10. 3D Mouse Parallax Tilt & Spotlight Flashlight Math
-document.querySelectorAll('.card-glass').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
+// 11. Mouse Parallax Tilt & Spotlight Effect Engine
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+
+  card.onmousemove = function(e) {
+    const rect = this.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
 
-    if (card.classList.contains('tilt-card')) {
-      const centerX = x - rect.width / 2;
-      const centerY = y - rect.height / 2;
-      card.style.transform = `perspective(1000px) rotateX(${-centerY / 15}deg) rotateY(${centerX / 15}deg) scale3d(1.02, 1.02, 1.02)`;
-    }
-  });
+    // Flashlight positioning
+    this.style.setProperty('--mouse-x', `${x}px`);
+    this.style.setProperty('--mouse-y', `${y}px`);
 
-  card.addEventListener('mouseleave', () => {
-    if (card.classList.contains('tilt-card')) {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    }
-  });
+    // Degree calculations
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (((y - centerY) / centerY) * -12).toFixed(2);
+    const rotateY = (((x - centerX) / centerX) * 12).toFixed(2);
+
+    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+  };
+
+  card.onmouseleave = function() {
+    this.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
 });
 
-// 11. Developer Terminal Execution Logic
+// Flashlight effect for non-tilt cards
+document.querySelectorAll('.card-glass:not(.tilt-card)').forEach(card => {
+  card.onmousemove = function(e) {
+    const rect = this.getBoundingClientRect();
+    this.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    this.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+});
+
+// 12. Matrix Rain Easter Egg
+let matrixInterval = null;
+function toggleMatrixRain() {
+  const canvas = document.getElementById('matrix-canvas');
+  if (!canvas) return;
+  
+  if (matrixInterval) {
+    clearInterval(matrixInterval);
+    matrixInterval = null;
+    canvas.classList.add('opacity-0');
+    return;
+  }
+
+  canvas.classList.remove('opacity-0');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.parentElement.offsetWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
+
+  const characters = "01EDWIENJANAKANXYZ789";
+  const fontSize = 12;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  matrixInterval = setInterval(() => {
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.15)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#60a5fa';
+    ctx.font = `${fontSize}px monospace`;
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = characters.charAt(Math.floor(Math.random() * characters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }, 40);
+}
+
+// 13. Tic-Tac-Toe Game State in Terminal
+let tttBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+let isPlayingTTT = false;
+
+function printTTTBoard() {
+  return `<br/>${tttBoard[0]} | ${tttBoard[1]} | ${tttBoard[2]}<br/>---------<br/>${tttBoard[3]} | ${tttBoard[4]} | ${tttBoard[5]}<br/>---------<br/>${tttBoard[6]} | ${tttBoard[7]} | ${tttBoard[8]}<br/>Type 'move 0-8' to play!`;
+}
+
+// 14. Terminal Command Handler
 function handleTerminalSubmit(e) {
   e.preventDefault();
   const input = document.getElementById('term-input');
@@ -192,37 +343,70 @@ function handleTerminalSubmit(e) {
   const resp = document.createElement('div');
   resp.className = "text-neutral-300 text-xs";
 
-  switch (val) {
-    case 'help':
-      resp.innerHTML = "Available commands: <span class='text-white'>skills</span>, <span class='text-white'>projects</span>, <span class='text-white'>contact</span>, <span class='text-white'>blueprint</span>, <span class='text-white'>clear</span>";
-      break;
-    case 'skills':
-      resp.innerHTML = "• Systems & Languages: C, C++, TypeScript, JavaScript, MQL5<br/>• Frontend: Next.js, Tailwind CSS, GSAP, Anime.js, WebGL<br/>• Hardware & Tools: macOS, Linux, Vim, Git";
-      break;
-    case 'projects':
-      resp.innerHTML = "1. Algorithmic Execution Core (MQL5/C++)<br/>2. Modern Architectural Studio (WebGL/3D)<br/>3. Kinetic Vector Studio (GSAP/Physics)";
-      break;
-    case 'contact':
-      resp.innerHTML = "Email: 10ethevachchandran@gmail.com | WhatsApp: +94 74 328 7586";
-      break;
-    case 'blueprint':
-      toggleBlueprintMode();
-      resp.innerHTML = "Blueprint wireframe mode toggled.";
-      break;
-    case 'clear':
-      output.innerHTML = "";
-      input.value = "";
-      return;
-    default:
-      resp.innerHTML = `Command not found: '${val}'. Type 'help' for available commands.`;
+  if (val.startsWith('move ') && isPlayingTTT) {
+    const pos = parseInt(val.split(' ')[1]);
+    if (!isNaN(pos) && pos >= 0 && pos <= 8 && tttBoard[pos] === " ") {
+      tttBoard[pos] = "X";
+      const emptySpots = tttBoard.map((v, i) => v === " " ? i : null).filter(v => v !== null);
+      if (emptySpots.length > 0) {
+        const botMove = emptySpots[Math.floor(Math.random() * emptySpots.length)];
+        tttBoard[botMove] = "O";
+      }
+      resp.innerHTML = printTTTBoard();
+    } else {
+      resp.innerHTML = "Invalid move spot. Choose an empty spot from 0 to 8.";
+    }
+  } else {
+    switch (val) {
+      case 'help':
+        resp.innerHTML = "Commands: <span class='text-white'>skills</span>, <span class='text-white'>projects</span>, <span class='text-white'>matrix</span>, <span class='text-white'>tictactoe</span>, <span class='text-white'>theme [blue/cyber/minimal]</span>, <span class='text-white'>sound [freq]</span>, <span class='text-white'>clear</span>";
+        break;
+      case 'matrix':
+        toggleMatrixRain();
+        resp.innerHTML = "Toggled Matrix neural stream rain overlay.";
+        break;
+      case 'tictactoe':
+        isPlayingTTT = true;
+        tttBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+        resp.innerHTML = "Starting Tic-Tac-Toe vs Edwien AI:" + printTTTBoard();
+        break;
+      case 'theme blue':
+        setTheme('default');
+        resp.innerHTML = "Active theme set to Azure Blue.";
+        break;
+      case 'theme cyber':
+        setTheme('cyber');
+        resp.innerHTML = "Active theme set to Cyber Neon.";
+        break;
+      case 'theme minimal':
+        setTheme('minimal');
+        resp.innerHTML = "Active theme set to Monochrome Minimal.";
+        break;
+      case 'sound':
+        playHapticClick(880, 0.2, 'sawtooth');
+        resp.innerHTML = "Synthesized 880Hz test frequency tone.";
+        break;
+      case 'skills':
+        resp.innerHTML = "• Systems: C, C++, TypeScript, JavaScript, MQL5<br/>• Web & 3D: Next.js, Tailwind, GSAP, Anime.js, WebGL<br/>• OS & Tools: macOS, Linux, Vim, Git";
+        break;
+      case 'projects':
+        resp.innerHTML = "1. Algorithmic Execution Core<br/>2. Modern Architectural Studio<br/>3. Kinetic Vector Studio";
+        break;
+      case 'clear':
+        output.innerHTML = "";
+        input.value = "";
+        return;
+      default:
+        resp.innerHTML = `Command not recognized: '${val}'. Type 'help' for options.`;
+    }
   }
-  
+
   output.appendChild(resp);
   output.scrollTop = output.scrollHeight;
   input.value = "";
 }
 
-// 12. Case Study Data & Interactive Code Drawer
+// 15. Case Study Modal Data
 const projectData = {
   1: {
     badge: "QUANTITATIVE TRADING ENGINE",
@@ -293,20 +477,14 @@ function closeCaseStudy() {
   document.getElementById('case-modal').classList.add('opacity-0', 'pointer-events-none');
 }
 
-// Click-Outside-to-Close for Case Modal
 function handleCaseModalBackdropClick(e) {
   const card = document.getElementById('case-modal-card');
-  if (!card.contains(e.target)) {
-    closeCaseStudy();
-  }
+  if (!card.contains(e.target)) closeCaseStudy();
 }
 
-// Click-Outside-to-Close for Email Modal
 function handleEmailModalBackdropClick(e) {
   const card = document.getElementById('email-modal-card');
-  if (!card.contains(e.target)) {
-    closeEmailModal();
-  }
+  if (!card.contains(e.target)) closeEmailModal();
 }
 
 function switchCaseTab(tab) {
@@ -332,7 +510,7 @@ function toggleBlueprintMode() {
   document.body.classList.toggle('blueprint-mode');
 }
 
-// 13. Email Modal Handling
+// 16. Email Modal Handling
 function openEmailModal() {
   document.getElementById('email-modal').classList.remove('opacity-0', 'pointer-events-none');
 }
@@ -345,21 +523,47 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeEmailModal();
     closeCaseStudy();
+    if (isInspectActive) toggleHardwareInspect();
   }
 });
 
+// Dynamic Runtime Assembly to protect against scrapers
+function openSecureWhatsApp() {
+  const p1 = "9474";
+  const p2 = "328";
+  const p3 = "7586";
+  const msg = encodeURIComponent("Hi Edwien, I saw your portfolio!");
+  const targetUrl = `https://wa.me/${p1}${p2}${p3}?text=${msg}`;
+  window.open(targetUrl, '_blank', 'noopener,noreferrer');
+}
+
 async function handleSendEmail(e) {
   e.preventDefault();
+
+  // Honeypot check: If filled, silently drop bot
+  const botTrap = document.getElementById('honeypot-check').value;
+  if (botTrap.length > 0) {
+    closeEmailModal();
+    return;
+  }
+
   const name = document.getElementById('sender-name').value;
   const subject = document.getElementById('email-subject').value;
   const message = document.getElementById('email-body').value;
+
+  const u = "10ethevachchandran";
+  const d = "gmail";
+  const tld = "com";
+  const recipient = `${u}@${d}.${tld}`;
+
   const formattedBody = `Name: ${name}\n\nMessage:\n${message}`;
-  const mailtoUrl = `mailto:10ethevachchandran@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
+  const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
+  
   window.location.href = mailtoUrl;
   closeEmailModal();
 }
 
-// 14. Synthesized Audio Feedback
+// 17. Synthesized Web Audio Haptics
 let audioEnabled = true;
 let audioCtx = null;
 
@@ -373,9 +577,7 @@ function playHapticClick(frequency = 600, duration = 0.03, type = "sine") {
   if (!audioEnabled) return;
   try {
     initAudioContext();
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
@@ -412,7 +614,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// 15. Magnetic Fluid Cursor with Window Leave/Enter Auto-Hide
+// 18. Magnetic Fluid Cursor with Window Leave/Enter
 const cursorDot = document.getElementById('custom-cursor-dot');
 const cursorRing = document.getElementById('custom-cursor-ring');
 

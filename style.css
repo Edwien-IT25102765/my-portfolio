@@ -1,27 +1,60 @@
-/* Core Styling: Pure Black, Deep Blue Accents & White Baseline */
+/* --- THEME PALETTE VARIABLES --- */
+:root {
+    --bg-color: #020617;
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #60a5fa;
+    --accent-highlight: #ef4444;
+    --card-bg: rgba(15, 23, 42, 0.7);
+    --card-border: rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="cyber"] {
+    --bg-color: #0d0208;
+    --text-main: #ffffff;
+    --text-muted: #f43f5e;
+    --accent-primary: #ff0055;
+    --accent-secondary: #00f0ff;
+    --accent-highlight: #ffe600;
+    --card-bg: rgba(26, 5, 16, 0.75);
+    --card-border: rgba(255, 0, 85, 0.3);
+}
+
+[data-theme="minimal"] {
+    --bg-color: #09090b;
+    --text-main: #fafafa;
+    --text-muted: #a1a1aa;
+    --accent-primary: #ffffff;
+    --accent-secondary: #d4d4d8;
+    --accent-highlight: #71717a;
+    --card-bg: rgba(24, 24, 27, 0.75);
+    --card-border: rgba(255, 255, 255, 0.15);
+}
+
+/* Core Baseline */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #020617;
-    /* Slate Black */
-    color: #ffffff;
+    background-color: var(--bg-color);
+    color: var(--text-main);
     overflow-x: hidden;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .font-mono-code {
     font-family: 'JetBrains Mono', monospace;
 }
 
-/* Glowing Scroll Progress Bar with Red-to-Blue Spectrum */
+/* Scroll Progress Bar */
 #scroll-progress-bar {
     position: fixed;
     top: 0;
     left: 0;
     height: 3px;
-    background: linear-gradient(90deg, #ef4444, #3b82f6, #60a5fa);
+    background: linear-gradient(90deg, var(--accent-highlight), var(--accent-primary), var(--accent-secondary));
     z-index: 100;
     width: 0%;
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+    box-shadow: 0 0 12px var(--accent-primary);
     transition: width 0.1s ease-out;
 }
 
@@ -43,10 +76,10 @@ body {
     gap: 1.5rem;
 }
 
-/* Apple Frosted Glass Card with Flashlight Spotlight Effect */
+/* Frosted Glass Card with Flashlight Spotlight */
 .card-glass {
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     backdrop-filter: blur(16px);
     position: relative;
     overflow: hidden;
@@ -60,7 +93,7 @@ body {
     left: var(--mouse-x, -200px);
     width: 320px;
     height: 320px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 70%);
+    background: radial-gradient(circle, var(--accent-primary), transparent 70%);
     transform: translate(-50%, -50%);
     pointer-events: none;
     opacity: 0;
@@ -69,13 +102,13 @@ body {
 }
 
 .card-glass:hover::before {
-    opacity: 1;
+    opacity: 0.25;
 }
 
-.card-glass:hover {
+.card-glass:not(.tilt-card):hover {
     transform: scale(1.02);
-    border-color: rgba(96, 165, 250, 0.5);
-    box-shadow: 0 0 25px rgba(37, 99, 235, 0.2);
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
 }
 
 .card-glass:active {
@@ -96,7 +129,7 @@ body {
     transform: translateY(0) scale(0.96);
 }
 
-/* Crisp Vector Rendering */
+/* Vector Rendering */
 svg,
 i[data-feather] {
     shape-rendering: geometricPrecision;
@@ -114,21 +147,40 @@ i[data-feather] {
     scroll-snap-stop: always;
 }
 
-/* GPU Hardware Acceleration */
-.gpu-accel {
-    transform: translateZ(0);
-    will-change: transform, opacity;
-}
-
-/* 3D Perspective Stages */
+/* 3D Exploded Stage State */
 .exploded-stage {
     perspective: 1200px;
     transform-style: preserve-3d;
 }
 
+.exploded-stage.inspect-active {
+    cursor: grab;
+    pointer-events: auto !important;
+}
+
+.exploded-stage.inspect-active:active {
+    cursor: grabbing;
+}
+
+/* Card Parallax & Smooth Return */
 .tilt-card {
     transform-style: preserve-3d;
+    will-change: transform;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
     transition: transform 0.15s ease-out, border-color 0.3s ease;
+    pointer-events: auto;
+}
+
+/* Ensure inner elements do not block mouse tracking */
+.tilt-card * {
+    pointer-events: none;
+}
+
+/* Re-enable pointer events for clickable buttons inside the card */
+.tilt-card a,
+.tilt-card button,
+.tilt-card [onclick] {
+    pointer-events: auto;
 }
 
 /* Blueprint Mode */
@@ -140,7 +192,7 @@ body.blueprint-mode {
 }
 
 body.blueprint-mode .card-glass {
-    border: 1px dashed rgba(96, 165, 250, 0.6) !important;
+    border: 1px dashed var(--accent-secondary) !important;
     background: rgba(10, 25, 47, 0.9) !important;
 }
 
@@ -165,13 +217,12 @@ body.blueprint-mode .card-glass {
     left: 0;
     width: 8px;
     height: 8px;
-    background-color: #60a5fa;
+    background-color: var(--accent-secondary);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
     opacity: 0;
-    /* Hidden by default until mouse moves */
     transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
@@ -181,13 +232,12 @@ body.blueprint-mode .card-glass {
     left: 0;
     width: 36px;
     height: 36px;
-    border: 1.5px solid rgba(96, 165, 250, 0.6);
+    border: 1.5px solid var(--accent-secondary);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
     opacity: 0;
-    /* Hidden by default until mouse moves */
     transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
         height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
         background-color 0.3s ease,
@@ -199,6 +249,6 @@ body.blueprint-mode .card-glass {
     width: 54px;
     height: 54px;
     background-color: rgba(59, 130, 246, 0.18);
-    border-color: rgba(96, 165, 250, 0.9);
+    border-color: var(--accent-secondary);
     backdrop-filter: blur(4px);
 }
