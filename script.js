@@ -76,15 +76,17 @@ heroTl
   .fromTo("#layer-cooler", { rotateX: 0, rotateY: 0, z: 0, scale: 0.8, opacity: 0 }, { rotateX: 35, rotateY: -20, z: 450, x: -70, y: -90, scale: 1.05, opacity: 0.75, ease: "power2.out" }, 0.3);
 
 
-// 6. 3D HARDWARE INSPECTION MODE (FIXED)
+// ==========================================
+// 6. 3D HARDWARE INSPECTION ENGINE (CROSS-BROWSER)
+// ==========================================
 let isInspectActive = false;
 const heroStage = document.getElementById('hero-stage');
 const inspectBtnText = document.getElementById('inspect-btn-text');
 const inspectIcon = document.getElementById('inspect-icon');
 
 let isDraggingStage = false;
-let startMouseX = 0;
-let startMouseY = 0;
+let startPointerX = 0;
+let startPointerY = 0;
 let stageRotX = 0;
 let stageRotY = 0;
 
@@ -96,6 +98,7 @@ function toggleHardwareInspect() {
     inspectBtnText.innerText = "Exit 3D Inspection Mode";
     if (inspectIcon) inspectIcon.setAttribute('data-feather', 'x');
     feather.replace();
+    heroTl.pause();
   } else {
     heroStage.classList.remove('inspect-active');
     inspectBtnText.innerText = "Enable 3D Drag Inspection";
@@ -106,7 +109,6 @@ function toggleHardwareInspect() {
     stageRotX = 0;
     stageRotY = 0;
     
-    // Animate stage smoothly back to baseline flat rotation
     gsap.to(heroStage, {
       rotateX: 0,
       rotateY: 0,
@@ -114,39 +116,53 @@ function toggleHardwareInspect() {
       ease: "power2.out",
       onComplete: () => {
         heroStage.style.transform = "";
+        heroTl.resume();
         ScrollTrigger.refresh();
       }
     });
   }
 }
 
-heroStage.addEventListener('mousedown', (e) => {
+// Universal Pointer Events (Brave + Safari + Chrome + Firefox)
+heroStage.addEventListener('pointerdown', (e) => {
   if (!isInspectActive) return;
+  e.preventDefault(); // Blocks Chromium native dragstart glitch
   isDraggingStage = true;
-  startMouseX = e.clientX;
-  startMouseY = e.clientY;
+  startPointerX = e.clientX;
+  startPointerY = e.clientY;
+  heroStage.setPointerCapture(e.pointerId); // Locks pointer track to container
 });
 
-window.addEventListener('mouseup', () => { 
-  isDraggingStage = false; 
-});
-
-window.addEventListener('mousemove', (e) => {
+heroStage.addEventListener('pointermove', (e) => {
   if (!isInspectActive || !isDraggingStage) return;
-  const deltaX = e.clientX - startMouseX;
-  const deltaY = e.clientY - startMouseY;
+  e.preventDefault();
+  
+  const deltaX = e.clientX - startPointerX;
+  const deltaY = e.clientY - startPointerY;
   
   stageRotY += deltaX * 0.35;
   stageRotX -= deltaY * 0.35;
   
-  // Clamp maximum tilt angles so layers don't invert or flip upside down
-  stageRotX = Math.max(-60, Math.min(60, stageRotX));
-  stageRotY = Math.max(-60, Math.min(60, stageRotY));
+  // Clamping prevents inverting inside out
+  stageRotX = Math.max(-65, Math.min(65, stageRotX));
+  stageRotY = Math.max(-65, Math.min(65, stageRotY));
   
   heroStage.style.transform = `perspective(1200px) rotateX(${stageRotX}deg) rotateY(${stageRotY}deg)`;
-  startMouseX = e.clientX;
-  startMouseY = e.clientY;
+  startPointerX = e.clientX;
+  startPointerY = e.clientY;
 });
+
+function endStageDrag(e) {
+  if (isDraggingStage) {
+    isDraggingStage = false;
+    try {
+      heroStage.releasePointerCapture(e.pointerId);
+    } catch(err) {}
+  }
+}
+
+heroStage.addEventListener('pointerup', endStageDrag);
+heroStage.addEventListener('pointercancel', endStageDrag);
 
 // 7. 3D Gyroscopic Device Orientation for Mobile
 if (window.DeviceOrientationEvent && ('ontouchstart' in window) && window.innerWidth < 768) {
